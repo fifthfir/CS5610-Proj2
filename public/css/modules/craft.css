@@ -1,0 +1,6 @@
+#craft-panel { min-height: 160px; }
+.story { line-height: 1.8; }
+.word { background: transparent; border: none; color: var(--text); padding: 0; }
+.word-note { text-decoration: underline; text-decoration-style: dotted; }
+.word-inv { text-decoration: underline; }
+.word-note:hover, .word-inv:hover { cursor: pointer; color: white; }

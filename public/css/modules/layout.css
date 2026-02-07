@@ -1,0 +1,24 @@
+.layout {
+  display: grid;
+  grid-template-columns: 320px 1fr 320px;
+  gap: 14px;
+  padding: 14px;
+  height: calc(100vh - 52px);
+}
+
+#notes-panel { overflow: auto; }
+#story-panel { overflow: auto; }
+
+.right {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 980px) {
+  .layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .right { grid-template-rows: auto; }
+}

@@ -1,0 +1,14 @@
+#newNoteForm {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+#newNoteInput { padding: 8px; border: 1px solid var(--border); background: transparent; color: var(--text); }
+
+.row-input {
+  padding: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+}

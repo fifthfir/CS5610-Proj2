@@ -1,0 +1,2 @@
+.inv-name { padding: 8px; border: 1px solid var(--border); }
+#inventory-panel .row { grid-template-columns: 1fr auto auto auto; }

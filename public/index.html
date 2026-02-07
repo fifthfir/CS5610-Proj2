@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Title</title>
+    <link rel="stylesheet" href="./css/base.css" />
+    <link rel="stylesheet" href="./css/modules/layout.css" />
+    <link rel="stylesheet" href="./css/modules/notes.css" />
+    <link rel="stylesheet" href="./css/modules/inventory.css" />
+    <link rel="stylesheet" href="./css/modules/craft.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="title">Title</div>
+      <div class="token">
+        Save Token: <span id="saveToken">...</span>
+        <button id="copyTokenBtn" type="button">Copy</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel" id="notes-panel">
+        <h2>Notes</h2>
+
+        <form id="newNoteForm">
+          <input id="newNoteInput" placeholder="Write a note..." />
+          <button type="submit">Add</button>
+        </form>
+
+        <div id="notesList" class="list"></div>
+      </section>
+
+      <section class="panel" id="story-panel">
+        <h2>Game Lines</h2>
+        <p class="hint">
+          Click highlighted words to add to <b>Notes</b> or <b>Inventory</b>.
+        </p>
+        <div id="storyText" class="story"></div>
+      </section>
+
+      <aside class="right">
+        <section class="panel" id="inventory-panel">
+          <h2>Inventory</h2>
+          <div id="inventoryList" class="list"></div>
+        </section>
+
+        <section class="panel" id="craft-panel">
+          <h2>Craft</h2>
+          <p class="muted">Placeholder.</p>
+        </section>
+      </aside>
+    </main>
+
+    <script type="module" src="./js/main.js"></script>
+  </body>
+</html>
