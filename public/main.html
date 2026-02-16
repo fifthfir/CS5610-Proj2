@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Title</title>
+    <title>Scavenge What remains</title>
     <link rel="stylesheet" href="./css/base.css" />
     <link rel="stylesheet" href="./css/modules/layout.css" />
     <link rel="stylesheet" href="./css/modules/notes.css" />
@@ -12,10 +12,17 @@
   </head>
   <body class="boot-effect">
     <header class="topbar">
-      <div class="title">Title</div>
-      <div class="token">
-        Save Token: <span id="saveToken">...</span>
-        <button id="copyTokenBtn" type="button">Copy</button>
+      <div class="title">Scavenge What remains</div>
+      <div class="panel">
+          <h3>System Identity</h3>
+          <div style="font-size: 0.8rem; color: #666;">ACCESS KEY:</div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+              <div id="displayToken" style="color: #4db8ff; letter-spacing: 1px; cursor: pointer; transition: color 0.2s;" title="Click to copy"></div>
+              
+              <div style="width: 20px; height: 20px; display: flex; align-items: center;">
+                  <span id="copyCheck" style="color: #2ecc71; opacity: 0; transition: opacity 0.3s; font-weight: bold;">✓</span>
+              </div>
+          </div>
       </div>
     </header>
 

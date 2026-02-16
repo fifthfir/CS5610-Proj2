@@ -6,91 +6,145 @@
     <title>Awakening...</title>
     <style>
         body {
-            background-color: #000;
-            color: #ccc;
-            font-family: 'Courier New', Courier, monospace;
+            background-color: #050505;
+            color: #e0e0e0;
+            font-family: "Cascadia Code", "Consolas", "Monaco", "Courier New", monospace;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            overflow: hidden;
+            overflow-y: auto; 
         }
 
         .container {
             text-align: center;
-            max-width: 600px;
-            animation: fadeIn 0s ease-in;
+            max-width: 500px;
+            padding: 40px 20px;
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid #1a1a1a;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 1);
+        }
+
+        .status-text {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         p {
-        font-size: 1.1rem;
-        color: #fff;
-        text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); 
-        letter-spacing: 1px;
+            line-height: 1.6;
+            margin: 15px 0;
         }
 
-        input {
-        font-family: 'Courier New', monospace;
-        letter-spacing: 3px;
-        text-transform: uppercase;
+        .token-btn {
+            display: block;
+            width: 100%;
+            background: transparent;
+            border: 1px solid #4db8ff;
+            color: #4db8ff;
+            font-size: 1.4rem;
+            padding: 15px;
+            margin: 25px 0;
+            cursor: pointer;
+            letter-spacing: 4px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            text-shadow: 0 0 10px rgba(77, 184, 255, 0.4);
         }
 
-        input:focus {
-            border-bottom-color: #4db8ff;
+        .token-btn:hover {
+            background: rgba(77, 184, 255, 0.15);
+            box-shadow: inset 0 0 15px rgba(77, 184, 255, 0.2), 0 0 20px rgba(77, 184, 255, 0.2);
+            transform: translateY(-2px);
         }
 
-        .hint {
-            margin-top: 1rem;
-            font-size: 0.8rem;
-            color: #666;
-            opacity: 0;
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #222, transparent);
+            margin: 40px 0 30px;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .recovery-section {
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .recovery-section:focus-within {
+            opacity: 1;
+        }
+
+        input#recoveryToken {
+            font-size: 1rem;
+            text-align: center;
+            border: 1px solid #333;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box; 
+            background: #0a0a0a;
+            color: #4db8ff;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        input#recoveryToken:focus {
+            border-color: #4db8ff;
+            box-shadow: 0 0 10px rgba(77, 184, 255, 0.1);
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <p>You awaken to see yourself in your cryochamber...</p>
-    <p>Your memory is fractured. Your name was...</p>
+    <div class="status-text">Cryo-Status: Awakening</div>
+    <p>Neural link re-establishing... <br>System assigns temporary identity:</p>
     
-    <input type="text" id="playerName" autocomplete="off" spellcheck="false">
-    <div id="hint" class="hint">Press [ENTER] to confirm</div>
+    <button id="newTokenBtn" class="token-btn">GENERATING...</button>
+    <div style="font-size: 0.7rem; color: #444;">[ CLICK TO INITIALIZE NEW SESSION ]</div>
+
+    <div class="divider"></div>
+
+    <div class="recovery-section">
+        <div class="status-text" style="font-size: 0.7rem;">Or Resume Archive</div>
+        <input type="text" id="recoveryToken" placeholder="ENTER ACCESS KEY">
+        <p id="hint" style="font-size: 0.65rem; color: #444; margin-top: 8px;">PRESS [ENTER] TO RESTORE DATA</p>
+    </div>
 </div>
 
-<script>
-    const input = document.getElementById('playerName');
-    const hint = document.getElementById('hint');
+<script type="module">
+    import { generateToken, saveToken } from './js/modules/session.js';
 
-    input.addEventListener('input', () => {
-        if (input.value.trim().length > 0) {
-            hint.style.opacity = "1";
-        } else {
-            hint.style.opacity = "0";
-        }
+    const newTokenBtn = document.getElementById('newTokenBtn');
+    const recoveryInput = document.getElementById('recoveryToken');
+
+    const freshToken = generateToken();
+    newTokenBtn.textContent = freshToken;
+
+    newTokenBtn.addEventListener('click', () => {
+        saveToken(freshToken);
+        startTransition();
     });
 
-    input.addEventListener('keypress', (e) => {
+    recoveryInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-            const name = input.value.trim();
-            if (name) {
-                localStorage.setItem('playerName', name);
-                
-                document.body.classList.add('shutdown-effect');
-                
-                setTimeout(() => {
-                    window.location.href = 'main.html';
-                }, 400);
+            const oldToken = recoveryInput.value.trim().toUpperCase();
+            if (oldToken) {
+                saveToken(oldToken); 
+                startTransition();
+            } else {
+                alert("Please enter a valid Access Key.");
             }
         }
     });
 
-    window.onload = () => input.focus();
+    function startTransition() {
+        document.body.classList.add('shutdown-effect');
+        setTimeout(() => {
+            window.location.href = 'main.html';
+        }, 400);
+    }
 </script>
 
 </body>

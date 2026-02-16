@@ -15,7 +15,7 @@ let notes = [];
 let inventory = [];
 
 const els = {
-  token: document.getElementById("saveToken"),
+  token: document.getElementById("displayToken"),
   copyBtn: document.getElementById("copyTokenBtn"),
   story: document.getElementById("storyText"),
   notesList: document.getElementById("notesList"),
@@ -25,109 +25,131 @@ const els = {
 };
 
 async function refreshUI() {
-  renderNotes(els.notesList, notes, {
-    onEdit: async (id, text) => {
-      await updateNote(ownerId, id, text);
-      notes = await loadNotes(ownerId);
-      refreshUI();
-    },
-    onDelete: async (id) => {
-      await deleteNote(ownerId, id);
-      notes = await loadNotes(ownerId);
-      refreshUI();
-    },
-  });
 
-  renderInventory(els.invList, inventory, {
-    // 1. Toggle Pin Logic
-    onTogglePin: async (id, pinned) => {
-      try {
-        await updateInventoryItem(ownerId, id, { pinned }); // Update DB
-        inventory = await loadInventory(ownerId);          // Fetch fresh data
-        refreshUI();                                       // Re-draw the screen
-      } catch (err) {
-        console.error("Pin failed:", err);
-      }
-    },
+  console.log("Current Owner:", ownerId);
+  if (!ownerId) {
+      console.error("Token missing! Cannot load data.");
+      return;
+  }
 
-    // 2. Toggle Inspect Logic
-    onToggleInspect: async (id, inspected) => {
-      try {
+  if (els.notesList) {
+    renderNotes(els.notesList, notes, {
+      onEdit: async (id, text) => {
+        console.log("Updating Note:", id, "with Text:", text, "for Owner:", ownerId);
+        await updateNote(ownerId, id, text);
+        notes = await loadNotes(ownerId);
+        refreshUI();
+      },
+      onDelete: async (id) => {
+        await deleteNote(ownerId, id);
+        notes = await loadNotes(ownerId);
+        refreshUI();
+      },
+    });
+  }
+
+  if (els.invList) {
+    renderInventory(els.invList, inventory, {
+      onTogglePin: async (id, pinned) => {
+        await updateInventoryItem(ownerId, id, { pinned });
+        inventory = await loadInventory(ownerId);
+        refreshUI();
+      },
+      onToggleInspect: async (id, inspected) => {
         await updateInventoryItem(ownerId, id, { inspected });
         inventory = await loadInventory(ownerId);
         refreshUI();
-      } catch (err) {
-        console.error("Inspect failed:", err);
-      }
-    },
-
-    // 3. Delete Logic
-    onDelete: async (id) => {
-      if (!confirm("Are you sure?")) return;
-      try {
+      },
+      onDelete: async (id) => {
+        if (!confirm("Are you sure?")) return;
         await deleteInventoryItem(ownerId, id);
         inventory = await loadInventory(ownerId);
         refreshUI();
-      } catch (err) {
-        console.error("Delete failed:", err);
       }
-    }
-  });
+    });
+  }
 }
 
 async function boot() {
-    console.log("Booting up...");
-  ownerId = await ensureOwnerId();
-  els.token.textContent = ownerId;
+  console.log("System initializing...");
+  
+  ownerId = await ensureOwnerId(); 
+  if (!ownerId) return;
+  
+  const tokenDisplay = document.getElementById("displayToken");
+  const copyCheck = document.getElementById("copyCheck");
 
-  els.copyBtn.addEventListener("click", async () => {
-    await navigator.clipboard.writeText(ownerId);
-    els.copyBtn.textContent = "Copied!";
-    setTimeout(() => (els.copyBtn.textContent = "Copy"), 800);
-  });
+  if (tokenDisplay) {
+      tokenDisplay.textContent = ownerId;
 
-  els.noteForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const text = els.noteInput.value.trim();
-    if (!text) return;
-    try {
-        await createNote(ownerId, text, "manual");
-        
-        els.noteInput.value = ""; 
+      tokenDisplay.addEventListener("click", async () => {
+          try {
+              await navigator.clipboard.writeText(ownerId);
+              
+              copyCheck.style.opacity = "1";
+              
+              tokenDisplay.style.color = "#fff";
+              
+              setTimeout(() => {
+                  copyCheck.style.opacity = "0";
+                  tokenDisplay.style.color = "#4db8ff";
+              }, 800);
+              
+          } catch (err) {
+              console.error("Copy failed", err);
+          }
+      });
+  }
 
-        notes = await loadNotes(ownerId);
+  if (els.token) {
+    els.token.textContent = ownerId;
+  }
 
-        refreshUI();
-    } catch (err) {
-        console.error("Failed to add note:", err);
-    }
-  });
+  if (els.copyBtn) {
+    els.copyBtn.addEventListener("click", async () => {
+      await navigator.clipboard.writeText(ownerId);
+      const originalText = els.copyBtn.textContent;
+      els.copyBtn.textContent = "Copied!";
+      setTimeout(() => (els.copyBtn.textContent = originalText), 800);
+    });
+  }
 
-  renderStory(els.story, {
-    onAddNote: async (word) => {
-      try {await createNote(ownerId, word, "story");
+  if (els.noteForm) {
+    els.noteForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const text = els.noteInput.value.trim();
+      if (!text) return;
+      await createNote(ownerId, text, "manual");
+      els.noteInput.value = ""; 
       notes = await loadNotes(ownerId);
       refreshUI();
-      } catch(e) {
-        console.error("Add notes failed:", e);
-      }
-    },
-    onAddInventory: async (word) => {
-      try{await addInventoryItem(ownerId, word, "story");
-      inventory = await loadInventory(ownerId);
-      refreshUI();
-      } catch(e) {
-        console.error("Add items failed:", e);
-      }
-    },
-  });
+    });
+  }
 
-  notes = await loadNotes(ownerId);
-  inventory = await loadInventory(ownerId);
-  await refreshUI();
+  if (els.story) {
+    renderStory(els.story, {
+      onAddNote: async (word) => {
+        await createNote(ownerId, word, "story");
+        notes = await loadNotes(ownerId);
+        refreshUI();
+      },
+      onAddInventory: async (word) => {
+        await addInventoryItem(ownerId, word, "story");
+        inventory = await loadInventory(ownerId);
+        refreshUI();
+      },
+    });
+  }
+
+  try {
+    notes = await loadNotes(ownerId);
+    inventory = await loadInventory(ownerId);
+    await refreshUI();
+  } catch (err) {
+    console.warn("Initial data load failed. Checking connection...");
+  }
 }
 
 boot().catch((e) => {
-  console.error(e);
-  alert(e.message);
+  console.error("Critical boot failure:", e);
 });

@@ -11,7 +11,8 @@ export async function addInventoryItem(ownerId, name, source = "story") {
 }
 
 export async function updateInventoryItem(ownerId, id, patch) {
-  const resp = await apiFetch(`/api/inventory/${id}`, { method: "PUT", ownerId, body: patch });
+  const resp = await apiFetch(`/api/inventory/${id}`, 
+    { method: "PUT", ownerId, body: patch});
   return resp.data;
 }
 

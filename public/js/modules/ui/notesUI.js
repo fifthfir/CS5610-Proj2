@@ -11,7 +11,10 @@ export async function createNote(ownerId, text, source = "story") {
 }
 
 export async function updateNote(ownerId, id, text) {
-  const resp = await apiFetch(`/api/notes/${id}`, { method: "PUT", ownerId, body: { text } });
+  const resp = await apiFetch(`/api/notes/${id}`, { 
+    method: "PUT", 
+    body: { text } 
+  });
   return resp.data;
 }
 

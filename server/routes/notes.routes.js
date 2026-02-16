@@ -58,8 +58,14 @@ router.put("/:id", async (req, res) => {
       { returnDocument: "after" }
     );
 
-    if (!result.value) throw new Error("Note not found");
-    res.json({ ok: true, data: result.value });
+    const updatedDoc = result.value !== undefined ? result.value : result;
+    
+    if (!updatedDoc) {
+      return res.status(404).json({ ok: false, error: "Note not found" });
+    }
+    
+    res.json({ ok: true, data: updatedDoc });
+
   } catch (e) {
     res.status(400).json({ ok: false, error: e.message });
   }
