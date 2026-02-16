@@ -79,6 +79,9 @@ async function boot() {
   const tokenDisplay = document.getElementById("displayToken");
   const copyCheck = document.getElementById("copyCheck");
 
+  notes = await loadNotes(ownerId);
+    inventory = await loadInventory(ownerId);
+
   if (tokenDisplay) {
       tokenDisplay.textContent = ownerId;
 
@@ -127,19 +130,21 @@ async function boot() {
   }
 
   if (els.story) {
-    renderStory(els.story, {
-      onAddNote: async (word) => {
-        await createNote(ownerId, word, "story");
-        notes = await loadNotes(ownerId);
-        refreshUI();
-      },
-      onAddInventory: async (word) => {
-        await addInventoryItem(ownerId, word, "story");
-        inventory = await loadInventory(ownerId);
-        refreshUI();
-      },
-    });
-  }
+        renderStory(els.story, {
+            notes,      // 传入已有的笔记
+            inventory,  // 传入已有的物品
+            onAddNote: async (word) => {
+                await createNote(ownerId, word, "story");
+                notes = await loadNotes(ownerId);
+                refreshUI();
+            },
+            onAddInventory: async (word) => {
+                await addInventoryItem(ownerId, word, "story");
+                inventory = await loadInventory(ownerId);
+                refreshUI();
+            }
+        });
+    }
 
   try {
     notes = await loadNotes(ownerId);
