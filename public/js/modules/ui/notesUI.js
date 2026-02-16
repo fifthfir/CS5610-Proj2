@@ -28,26 +28,22 @@ export function renderNotes(listEl, notes, { onEdit, onDelete }) {
 
   notes.forEach((n) => {
     const row = document.createElement("div");
-    row.className = "row";
-
+    row.className = "row"; 
     const input = document.createElement("input");
     input.value = n.text;
     input.className = "row-input";
 
     const saveBtn = document.createElement("button");
-    saveBtn.type = "button";
     saveBtn.textContent = "Save";
-    saveBtn.addEventListener("click", () => onEdit(n._id, input.value));
+    saveBtn.className = "btn-save";
+    saveBtn.onclick = () => onEdit(n._id, input.value);
 
     const delBtn = document.createElement("button");
-    delBtn.type = "button";
-    delBtn.textContent = "Delete";
-    delBtn.addEventListener("click", () => onDelete(n._id));
+    delBtn.textContent = "Del"; 
+    delBtn.className = "btn-del";
+    delBtn.onclick = () => onDelete(n._id);
 
-    row.appendChild(input);
-    row.appendChild(saveBtn);
-    row.appendChild(delBtn);
-
+    row.append(input, saveBtn, delBtn); 
     listEl.appendChild(row);
   });
 }

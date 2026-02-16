@@ -6,9 +6,44 @@
 }
 #newNoteInput { padding: 8px; border: 1px solid var(--border); background: transparent; color: var(--text); }
 
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto auto; 
+  gap: 6px;
+  align-items: center;
+}
+
 .row-input {
-  padding: 8px;
+  width: 100%; 
+  min-width: 0; 
+  padding: 6px 8px;
   border: 1px solid var(--border);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text);
+  border-radius: 0px;
+}
+
+.btn-save, .btn-del {
+  border-radius: 0;
+  border: 1px solid var(--border);
+  color: white;
+  padding: 6px 10px;
+  background-color: #000000; 
+}
+
+.btn-save:hover {
+  background-color: #11a9b4; 
+  transform: translateY(-2px);
+}
+.btn-del:hover {
+  background-color: #ce0909; 
+  transform: translateY(-2px);
 }

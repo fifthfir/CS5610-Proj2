@@ -1,57 +1,97 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Title</title>
-    <link rel="stylesheet" href="./css/base.css" />
-    <link rel="stylesheet" href="./css/modules/layout.css" />
-    <link rel="stylesheet" href="./css/modules/notes.css" />
-    <link rel="stylesheet" href="./css/modules/inventory.css" />
-    <link rel="stylesheet" href="./css/modules/craft.css" />
-  </head>
-  <body>
-    <header class="topbar">
-      <div class="title">Title</div>
-      <div class="token">
-        Save Token: <span id="saveToken">...</span>
-        <button id="copyTokenBtn" type="button">Copy</button>
-      </div>
-    </header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awakening...</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #ccc;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
 
-    <main class="layout">
-      <section class="panel" id="notes-panel">
-        <h2>Notes</h2>
+        .container {
+            text-align: center;
+            max-width: 600px;
+            animation: fadeIn 0s ease-in;
+        }
 
-        <form id="newNoteForm">
-          <input id="newNoteInput" placeholder="Write a note..." />
-          <button type="submit">Add</button>
-        </form>
+        p {
+        font-size: 1.1rem;
+        color: #fff;
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.2); 
+        letter-spacing: 1px;
+        }
 
-        <div id="notesList" class="list"></div>
-      </section>
+        input {
+        font-family: 'Courier New', monospace;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        }
 
-      <section class="panel" id="story-panel">
-        <h2>Game Lines</h2>
-        <p class="hint">
-          Click highlighted words to add to <b>Notes</b> or <b>Inventory</b>.
-        </p>
-        <div id="storyText" class="story"></div>
-      </section>
+        input:focus {
+            border-bottom-color: #4db8ff;
+        }
 
-      <aside class="right">
-        <section class="panel" id="inventory-panel">
-          <h2>Inventory</h2>
-          <div id="inventoryList" class="list"></div>
-        </section>
+        .hint {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: #666;
+            opacity: 0;
+        }
 
-        <section class="panel" id="craft-panel">
-          <h2>Craft</h2>
-          <p class="muted">Placeholder.</p>
-        </section>
-      </aside>
-    </main>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
 
-    <script type="module" src="./js/main.js"></script>
-  </body>
+<div class="container">
+    <p>You awaken to see yourself in your cryochamber...</p>
+    <p>Your memory is fractured. Your name was...</p>
+    
+    <input type="text" id="playerName" autocomplete="off" spellcheck="false">
+    <div id="hint" class="hint">Press [ENTER] to confirm</div>
+</div>
+
+<script>
+    const input = document.getElementById('playerName');
+    const hint = document.getElementById('hint');
+
+    input.addEventListener('input', () => {
+        if (input.value.trim().length > 0) {
+            hint.style.opacity = "1";
+        } else {
+            hint.style.opacity = "0";
+        }
+    });
+
+    input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const name = input.value.trim();
+            if (name) {
+                localStorage.setItem('playerName', name);
+                
+                document.body.classList.add('shutdown-effect');
+                
+                setTimeout(() => {
+                    window.location.href = 'main.html';
+                }, 400);
+            }
+        }
+    });
+
+    window.onload = () => input.focus();
+</script>
+
+</body>
 </html>
