@@ -1,6 +1,32 @@
-#craft-panel { min-height: 160px; }
-.story { line-height: 1.8; }
-.word { background: transparent; border: none; color: var(--text); padding: 0; }
-.word-note { text-decoration: underline; text-decoration-style: dotted; }
-.word-inv { text-decoration: underline; }
-.word-note:hover, .word-inv:hover { cursor: pointer; color: white; }
+/* Story Text Interaction Styles */
+
+.word-note {
+  color: #4db8ff; /* Bright Blue for Notes */
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.word-inv {
+  color: #ff9f43; /* Warm Orange for Items */
+  text-decoration: underline;
+  text-decoration-style: solid;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+/* Hover Effects */
+.word-note:hover, .word-inv:hover {
+  filter: brightness(1.3);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+/* State after clicking */
+.collected {
+  pointer-events: none;
+  opacity: 0.5;
+}

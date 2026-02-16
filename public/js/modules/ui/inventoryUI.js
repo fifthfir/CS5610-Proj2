@@ -56,4 +56,7 @@ export function renderInventory(listEl, items, { onToggleInspect, onTogglePin, o
 
     listEl.appendChild(row);
   });
+
+
 }
+

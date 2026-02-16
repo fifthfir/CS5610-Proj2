@@ -1,59 +1,62 @@
-const storyLines = [
-  // note words
-  // Should use json for the whole story
-  { type: "text", value: "cold" },
-  { type: "note", value: "wind" },
-  { type: "text", value: "in" },
-  { type: "text", value: "the" },
-  { type: "inv", value: "forest" },
-  { type: "text", value: "." },
+/**
+ * storyUI.js
+ * Narrative system with color-coded interactive elements.
+ */
 
-  { type: "text", value: "You" },
-  { type: "text", value: "see" },
-  { type: "inv", value: "rope" },
-  { type: "text", value: "and" },
-  { type: "inv", value: "match" },
-  { type: "text", value: "near" },
-  { type: "note", value: "scratches" },
-  { type: "text", value: "on" },
-  { type: "text", value: "a" },
-  { type: "inv", value: "door" },
-  { type: "text", value: "." },
-];
+const storyData = {
+  content: `
+    The investigation begins here. You notice a [faint scratch]{note} on the floor 
+    leading toward the bookshelf. On the desk, there is a [Brass Key]{item} 
+    and a [Leather Journal]{item}. 
+    
+    A small note tucked inside reads: "[The password is 1234]{note}".
+  `
+};
 
 export function renderStory(container, { onAddNote, onAddInventory }) {
-  container.innerHTML = "";
+  
+  /**
+   * Parser: Converts tags to spans with specific classes for styling
+   * [text]{note} -> class="word-note"
+   * [text]{item} -> class="word-inv"
+   */
+  const parseStoryText = (text) => {
+    return text
+      .replace(/\[(.*?)\]\{note\}/g, '<span class="word-note">$1</span>')
+      .replace(/\[(.*?)\]\{item\}/g, '<span class="word-inv">$1</span>');
+  };
 
-  storyLines.forEach((w, index) => {
-    const isPunctuation = /^[.,!?;:]/.test(w.value);
+  container.innerHTML = `
+    <div class="story-content" style="white-space: pre-wrap;">
+      ${parseStoryText(storyData.content)}
+    </div>
+  `;
 
-    if (isPunctuation && container.lastChild && container.lastChild.nodeType === Node.TEXT_NODE) {
-      container.removeChild(container.lastChild);
-    }
+  // Listener for interactions
+  container.addEventListener("click", (e) => {
+    const target = e.target;
+    const value = target.textContent;
 
-    const el = w.type === "text" 
-      ? document.createElement("span") 
-      : document.createElement("button");
-
-    el.textContent = w.value;
+    if (target.classList.contains("word-note")) {
+      onAddNote(value);
+      handleFeedback(target);
+    } 
     
-    if (w.type !== "text") {
-      el.style.color = w.type === "note" ? "green" : "orange";
-      el.style.cursor = "pointer";
-      el.style.border = "none";
-      el.style.background = "none";
-      el.style.padding = "0";
-      el.style.font = "inherit";
-      el.style.textDecoration = "underline";
-
-      el.addEventListener("click", () => {
-        if (w.type === "note") onAddNote(w.value);
-        if (w.type === "inv") onAddInventory(w.value);
-      });
+    else if (target.classList.contains("word-inv")) {
+      onAddInventory(value);
+      handleFeedback(target);
     }
-
-    container.appendChild(el);
-
-    container.appendChild(document.createTextNode(" "));
   });
+}
+
+/**
+ * Visual feedback when clicked (optional animation)
+ */
+function handleFeedback(element) {
+  element.classList.add("collected");
+  // Brief flash effect
+  element.animate([
+    { opacity: 1, filter: 'brightness(1.5)' },
+    { opacity: 0.5, filter: 'brightness(1)' }
+  ], { duration: 300, fill: 'forwards' });
 }
