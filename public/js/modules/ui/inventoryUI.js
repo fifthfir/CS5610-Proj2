@@ -1,4 +1,4 @@
-import { apiFetch } from "/js/modules/apiClient.js";
+import { apiFetch } from "../apiClient.js"; 
 
 export async function loadInventory(ownerId) {
   const resp = await apiFetch("/api/inventory", { ownerId });
@@ -21,7 +21,7 @@ export async function deleteInventoryItem(ownerId, id) {
 
 export function renderInventory(listEl, items, { onToggleInspect, onTogglePin, onDelete }) {
   listEl.innerHTML = "";
-  if (!items.length) {
+  if (!items || !items.length) {
     listEl.innerHTML = `<div class="empty">No items yet.</div>`;
     return;
   }
@@ -34,29 +34,22 @@ export function renderInventory(listEl, items, { onToggleInspect, onTogglePin, o
     name.className = "inv-name";
     name.textContent = it.name;
 
-    const inspectBtn = document.createElement("button");
-    inspectBtn.type = "button";
-    inspectBtn.textContent = it.inspected ? "Inspected ✓" : "Inspect";
-    inspectBtn.addEventListener("click", () => onToggleInspect(it._id, !it.inspected));
-
+    // Pin Button
     const pinBtn = document.createElement("button");
     pinBtn.type = "button";
     pinBtn.textContent = it.pinned ? "Pinned ★" : "Pin";
-    pinBtn.addEventListener("click", () => onTogglePin(it._id, !it.pinned));
+    pinBtn.style.color = it.pinned ? "#f1c40f" : "inherit";
+    // This calls the logic in main.js
+    pinBtn.onclick = () => onTogglePin(it._id, !it.pinned);
 
+    // Discard Button
     const delBtn = document.createElement("button");
     delBtn.type = "button";
     delBtn.textContent = "Discard";
-    delBtn.addEventListener("click", () => onDelete(it._id));
+    delBtn.onclick = () => onDelete(it._id);
 
-    row.appendChild(name);
-    row.appendChild(inspectBtn);
-    row.appendChild(pinBtn);
-    row.appendChild(delBtn);
-
+    // ... append others ...
+    row.append(name, pinBtn, delBtn); 
     listEl.appendChild(row);
   });
-
-
 }
-

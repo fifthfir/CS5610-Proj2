@@ -69,8 +69,11 @@ router.put("/:id", async (req, res) => {
       { returnDocument: "after" }
     );
 
-    if (!result.value) throw new Error("Item not found");
-    res.json({ ok: true, data: result.value });
+    // FIX: Support both old and new MongoDB driver versions
+    const updatedDoc = result.value !== undefined ? result.value : result;
+    
+    if (!updatedDoc) throw new Error("Item not found");
+    res.json({ ok: true, data: updatedDoc });
   } catch (e) {
     res.status(400).json({ ok: false, error: e.message });
   }

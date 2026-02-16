@@ -39,21 +39,39 @@ async function refreshUI() {
   });
 
   renderInventory(els.invList, inventory, {
-    onToggleInspect: async (id, inspected) => {
-      await updateInventoryItem(ownerId, id, { inspected });
-      inventory = await loadInventory(ownerId);
-      refreshUI();
-    },
+    // 1. Toggle Pin Logic
     onTogglePin: async (id, pinned) => {
-      await updateInventoryItem(ownerId, id, { pinned });
-      inventory = await loadInventory(ownerId);
-      refreshUI();
+      try {
+        await updateInventoryItem(ownerId, id, { pinned }); // Update DB
+        inventory = await loadInventory(ownerId);          // Fetch fresh data
+        refreshUI();                                       // Re-draw the screen
+      } catch (err) {
+        console.error("Pin failed:", err);
+      }
     },
+
+    // 2. Toggle Inspect Logic
+    onToggleInspect: async (id, inspected) => {
+      try {
+        await updateInventoryItem(ownerId, id, { inspected });
+        inventory = await loadInventory(ownerId);
+        refreshUI();
+      } catch (err) {
+        console.error("Inspect failed:", err);
+      }
+    },
+
+    // 3. Delete Logic
     onDelete: async (id) => {
-      await deleteInventoryItem(ownerId, id);
-      inventory = await loadInventory(ownerId);
-      refreshUI();
-    },
+      if (!confirm("Are you sure?")) return;
+      try {
+        await deleteInventoryItem(ownerId, id);
+        inventory = await loadInventory(ownerId);
+        refreshUI();
+      } catch (err) {
+        console.error("Delete failed:", err);
+      }
+    }
   });
 }
 
