@@ -45,11 +45,11 @@ export function renderStory(container, { onAddNote, onAddInventory, notes = [], 
     const parseLine = (text, lineIdx) => {
         return text
             .replace(/\[([^\]]+?)\]\{note\}/gi, (match, p1) => {
-                const isAdded = notes.some(n => n.source === `story-line-${lineIdx}` && n.text === p1);
+                const isAdded = notes.some(n => n.text === p1.trim());
                 return `<span class="word-note ${isAdded ? 'added' : ''}" data-line="${lineIdx}">${p1}</span>`;
             })
             .replace(/\[([^\]]+?)\]\{item\}/gi, (match, p1) => {
-                const isAdded = inventory.some(i => i.source === `story-line-${lineIdx}` && i.name === p1);
+                const isAdded = inventory.some(i => i.name === p1.trim());
                 return `<span class="word-inv ${isAdded ? 'added' : ''}" data-line="${lineIdx}">${p1}</span>`;
             });
     };
@@ -137,14 +137,21 @@ export function renderStory(container, { onAddNote, onAddInventory, notes = [], 
 
     container.onclick = (e) => {
         if (window.getSelection().toString().length > 0) return;
-
         const target = e.target;
         
         if (target.classList.contains("word-note") || target.classList.contains("word-inv")) {
             if (isTyping) { skipTyping = true; return; }
-            if (target.classList.contains("added")) return;
-            if (target.classList.contains("word-note")) onAddNote(target.textContent);
-            else onAddInventory(target.textContent);
+            
+            if (target.classList.contains("added")) {
+                console.log("This data already exists in your records.");
+                return; 
+            }
+
+            if (target.classList.contains("word-note")) {
+                onAddNote(target.textContent);
+            } else {
+                onAddInventory(target.textContent);
+            }
             
             target.classList.add("added");
             return;

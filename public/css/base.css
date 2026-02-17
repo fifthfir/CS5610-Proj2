@@ -44,7 +44,7 @@ h2, h3 {
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: #4db8ff;
+  color: #0ea9b4;
   margin-top: 0;
   border-bottom: 1px solid #222;
   padding-bottom: 5px;
@@ -80,8 +80,8 @@ h2, h3 {
 
 .token-btn {
     background: transparent;
-    border: 1px solid #4db8ff;
-    color: #4db8ff;
+    border: 1px solid #0ea9b4;
+    color: #0ea9b4;
     font-size: 1.6rem;
     padding: 10px 20px;
     margin: 20px 0;
@@ -100,7 +100,7 @@ h2, h3 {
 
 #displayToken:hover {
     color: #fff !important;
-    text-shadow: 0 0 10px rgba(77, 184, 255, 0.8);
+    text-shadow: 0 0 10px 0ea9b4(77, 184, 255, 0.8);
 }
 
 #displayToken:active {
@@ -117,7 +117,7 @@ h2, h3 {
 }
 
 .word-note {
-    color: #4db8ff;
+    color: #0ea9b4;
 }
 
 .word-inv {
@@ -126,7 +126,7 @@ h2, h3 {
 
 .word-note:hover {
     background: rgba(77, 184, 255, 0.2);
-    text-shadow: 0 0 8px #4db8ff;
+    text-shadow: 0 0 8px #0ea9b4;
 }
 
 .word-inv:hover {
@@ -193,7 +193,7 @@ h2, h3 {
 }
 
 #storyText::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(77, 184, 255, 0.6);
+    background-color: #0ea9b4;
 }
 
 #storyText {
@@ -204,7 +204,7 @@ h2, h3 {
 .story-line-item.active::after {
     content: "|";
     margin-left: 5px;
-    color: #4db8ff;
+    color: #0ea9b4;
     animation: blink 0.8s infinite;
 }
 
@@ -219,16 +219,16 @@ h2, h3 {
 
 .story-choice-text {
     cursor: pointer;
-    color: rgba(77, 184, 255, 0.8); 
+    color: #0ea9b4;
     padding-left: 10px;
     border-left: 2px solid transparent;
 }
 
 .story-choice-text:hover {
-    color: #4db8ff;
+    color: #0ea9b4;
     text-decoration: underline;
     background: rgba(77, 184, 255, 0.05);
-    border-left: 2px solid #4db8ff;
+    border-left: 2px solid #0ea9b4;
     padding-left: 15px; 
 }
 
