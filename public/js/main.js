@@ -26,7 +26,6 @@ const els = {
 };
 
 async function refreshUI() {
-
   console.log("Current Owner:", ownerId);
   if (!ownerId) {
       console.error("Token missing! Cannot load data.");
@@ -74,19 +73,30 @@ async function refreshUI() {
 async function boot() {
   console.log("System initializing...");
   
+const gameTitle = document.querySelector(".title"); 
+
+if (gameTitle) {
+    gameTitle.style.cursor = "pointer"; 
+    gameTitle.addEventListener("click", () => {
+        window.location.href = "/"; 
+    });
+}
+
   ownerId = await ensureOwnerId(); 
   if (!ownerId) return;
-
   localStorage.setItem("game_owner_id", ownerId);
-  
+
   try {
+    notes = await loadNotes(ownerId);
+    inventory = await loadInventory(ownerId);
+    
     const progressRes = await fetch(`/api/session/get-progress?ownerId=${ownerId}`);
     const progressData = await progressRes.json();
-    if (progressData.ok) {
+    if (progressData.ok && progressData.currentSection) {
         setInitialProgress(progressData.currentSection);
     }
   } catch (err) {
-    console.warn("Failed to load progress, defaulting to cell_1");
+    console.warn("Initial data or progress load failed:", err);
   }
 
   const tokenDisplay = document.getElementById("displayToken"); 
@@ -94,28 +104,20 @@ async function boot() {
 
   if (tokenDisplay) {
       tokenDisplay.textContent = ownerId;
-
       tokenDisplay.addEventListener("click", async () => {
           try {
               await navigator.clipboard.writeText(ownerId);
-              
-              copyCheck.style.opacity = "1";
-              
+              if (copyCheck) copyCheck.style.opacity = "1";
               tokenDisplay.style.color = "#fff";
-              
               setTimeout(() => {
-                  copyCheck.style.opacity = "0";
+                  if (copyCheck) copyCheck.style.opacity = "0";
                   tokenDisplay.style.color = "#4db8ff";
               }, 800);
-              
           } catch (err) {
               console.error("Copy failed", err);
           }
       });
   }
-
-  notes = await loadNotes(ownerId);
-  inventory = await loadInventory(ownerId);
 
   if (els.token) {
     els.token.textContent = ownerId;
@@ -157,15 +159,9 @@ async function boot() {
                 refreshUI();
             }
         });
-    }
-
-  try {
-    notes = await loadNotes(ownerId);
-    inventory = await loadInventory(ownerId);
-    await refreshUI();
-  } catch (err) {
-    console.warn("Initial data load failed. Checking connection...");
   }
+
+  await refreshUI();
 }
 
 boot().catch((e) => {
