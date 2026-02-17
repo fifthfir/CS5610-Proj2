@@ -32,14 +32,28 @@ export function renderNotes(listEl, notes, { onEdit, onDelete }) {
   notes.forEach((n) => {
     const row = document.createElement("div");
     row.className = "row"; 
-    const input = document.createElement("input");
-    input.value = n.text;
+
+    const input = document.createElement("div"); 
+    input.contentEditable = true;
+    input.textContent = n.text;
     input.className = "row-input";
+
+    input.oninput = () => {
+      if (input.textContent.length > 200) {
+        input.textContent = input.textContent.substring(0, 200);
+        const range = document.createRange();
+        const sel = window.getSelection();
+        range.selectNodeContents(input);
+        range.collapse(false);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+    };
 
     const saveBtn = document.createElement("button");
     saveBtn.textContent = "Save";
     saveBtn.className = "btn-save";
-    saveBtn.onclick = () => onEdit(n._id, input.value);
+    saveBtn.onclick = () => onEdit(n._id, input.textContent);
 
     const delBtn = document.createElement("button");
     delBtn.textContent = "Del"; 
