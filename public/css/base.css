@@ -200,3 +200,38 @@ h2, h3 {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
+
+.story-line-item.active::after {
+    content: "|";
+    margin-left: 5px;
+    color: #4db8ff;
+    animation: blink 0.8s infinite;
+}
+
+.story-line-item:not(.active)::after {
+    content: "";
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.story-choice-text {
+    cursor: pointer;
+    color: rgba(77, 184, 255, 0.8); 
+    padding-left: 10px;
+    border-left: 2px solid transparent;
+}
+
+.story-choice-text:hover {
+    color: #4db8ff;
+    text-decoration: underline;
+    background: rgba(77, 184, 255, 0.05);
+    border-left: 2px solid #4db8ff;
+    padding-left: 15px; 
+}
+
+.story-wrapper:has(.story-choice-container) .story-line-item.typing::after {
+    display: none;
+}
