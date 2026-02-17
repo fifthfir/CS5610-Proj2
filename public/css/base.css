@@ -58,7 +58,7 @@ h2, h3 {
 .empty { color: var(--muted); padding: 10px 0; }
 
 .muted { color: var(--muted); }
-.hint { color: var(--muted); margin-top: 0; }
+.hint { color: var(--muted); margin-top: 0; font-size: 10px; }
 
 @keyframes glitchedBoot {
   0% { opacity: 0; filter: brightness(3) contrast(1.5); transform: scale(1.02); }
@@ -294,19 +294,17 @@ h2, h3 {
 }
 
 .title {
-    transition: color 0.2s, text-shadow 0.2s; /* 添加平滑过渡动画 */
+    transition: color 0.2s, text-shadow 0.2s; 
     cursor: pointer;
-    color: #fff; /* 默认颜色 */
+    color: #fff; 
 }
 
-/* 模拟 Token 的 Hover 效果 */
 .title:hover {
-    color: #4db8ff; /* 悬停时变为与 Token 一样的蓝色 */
-    text-shadow: 0 0 8px rgba(77, 184, 255, 0.6); /* 增加微弱的发光感 */
+    color: #4db8ff; 
+    text-shadow: 0 0 8px rgba(77, 184, 255, 0.6); 
 }
 
-/* 点击时的反馈 */
 .title:active {
     color: #fff;
-    transform: translateY(1px); /* 轻微下压感 */
+    transform: translateY(1px);
 }
