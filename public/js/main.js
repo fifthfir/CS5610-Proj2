@@ -1,5 +1,6 @@
 import { ensureOwnerId } from "./modules/session.js";
 import { renderStory } from "./modules/ui/storyUI.js";
+import { STORY_DATA } from "./data/content.js";
 
 import { loadNotes, createNote, updateNote, deleteNote, renderNotes } from "./modules/ui/notesUI.js";
 import {
@@ -131,8 +132,8 @@ async function boot() {
 
   if (els.story) {
         renderStory(els.story, {
-            notes,      // 传入已有的笔记
-            inventory,  // 传入已有的物品
+            notes,    
+            inventory,
             onAddNote: async (word) => {
                 await createNote(ownerId, word, "story");
                 notes = await loadNotes(ownerId);
