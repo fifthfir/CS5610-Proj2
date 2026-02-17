@@ -6,6 +6,11 @@ let currentLineIndex = 0;
 let isTyping = false;
 let skipTyping = false;
 
+export function setInitialProgress(sectionName) {
+    currentSection = sectionName;
+    currentLineIndex = 0;
+}
+
 export function loadSection(sectionName, container) {
     if (!STORY_DATA[sectionName]) return;
     
@@ -14,7 +19,20 @@ export function loadSection(sectionName, container) {
     
     currentSection = sectionName;
     currentLineIndex = 0;
-    container.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const savedOwnerId = localStorage.getItem("game_owner_id"); 
+    if (savedOwnerId) {
+        fetch("/api/session/save-progress", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Owner-Id": savedOwnerId
+            },
+            body: JSON.stringify({ currentSection: sectionName })
+        }).catch(err => console.error("Save failed:", err));
+    }
+
+    container.scrollTo({ top: 0, behavior: 'auto' });
 }
 
 export function renderStory(container, { onAddNote, onAddInventory, notes = [], inventory = [] }) {

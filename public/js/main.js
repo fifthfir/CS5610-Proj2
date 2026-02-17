@@ -1,5 +1,5 @@
 import { ensureOwnerId } from "./modules/session.js";
-import { renderStory } from "./modules/ui/storyUI.js";
+import { renderStory, setInitialProgress } from "./modules/ui/storyUI.js";
 import { STORY_DATA } from "./data/content.js";
 
 import { loadNotes, createNote, updateNote, deleteNote, renderNotes } from "./modules/ui/notesUI.js";
@@ -76,12 +76,21 @@ async function boot() {
   
   ownerId = await ensureOwnerId(); 
   if (!ownerId) return;
-  
-  const tokenDisplay = document.getElementById("displayToken");
-  const copyCheck = document.getElementById("copyCheck");
 
-  notes = await loadNotes(ownerId);
-    inventory = await loadInventory(ownerId);
+  localStorage.setItem("game_owner_id", ownerId);
+  
+  try {
+    const progressRes = await fetch(`/api/session/get-progress?ownerId=${ownerId}`);
+    const progressData = await progressRes.json();
+    if (progressData.ok) {
+        setInitialProgress(progressData.currentSection);
+    }
+  } catch (err) {
+    console.warn("Failed to load progress, defaulting to cell_1");
+  }
+
+  const tokenDisplay = document.getElementById("displayToken"); 
+  const copyCheck = document.getElementById("copyCheck");
 
   if (tokenDisplay) {
       tokenDisplay.textContent = ownerId;
@@ -104,6 +113,9 @@ async function boot() {
           }
       });
   }
+
+  notes = await loadNotes(ownerId);
+  inventory = await loadInventory(ownerId);
 
   if (els.token) {
     els.token.textContent = ownerId;
