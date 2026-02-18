@@ -2,6 +2,7 @@
 
 export const STORY_DATA = {
     "cell_1": [
+        "[System Log: Neural Override Count - Updated]{note}",
         "Wake up in a violent [shiver]{note}.",
         "You awaken to see yourself in your Cryochamber.",
         "The status lights flicker. The computerized voice echoes: The journey was a [success]{note}.",
@@ -48,17 +49,6 @@ export const STORY_DATA = {
             type: "choices",
             list: [
                 { text: "> Venture into the darkness", target: "cell_dark_hallway" }
-            ]
-        }
-    ],
-
-    "cell_dark_hallway": [
-        "Why is the ship so dark? Did the [landing]{note} go wrong?",
-        "The emergency floor lights are out. You might need a Flashlight.",
-        {
-            type: "choices",
-            list: [
-                { text: "> Call out to the AI pilot", target: "cell_call_ai" }
             ]
         }
     ],
@@ -201,7 +191,8 @@ export const STORY_DATA = {
             list: [
                 { text: "> Check the other cryo pods", target: "cell_check_pods" },
                 { text: "> Check flight logs", target: "cell_flight_logs" },
-                { text: "> Try to restore basic systems", target: "cell_restore_systems" }
+                { text: "> Try to restore basic systems", target: "cell_restore_systems" },
+                { text: "> Consolidate what you've learned (better choose other three first)", target: "cell_boarding_dock_final" }
             ]
         }
     ],
@@ -343,8 +334,8 @@ export const STORY_DATA = {
             type: "choices",
             list: [
                 { text: "> Enter '174'", target: "cell_diary_success" },
-                { text: "> Enter '382", target: "cell_diary_failed" },
-                { text: "> Enter '930", target: "cell_diary_failed" },
+                { text: "> Enter '382'", target: "cell_diary_failed" },
+                { text: "> Enter '930'", target: "cell_diary_failed" },
                 { text: "> I don't have the code", target: "cell_system_info" }
             ]
         }
@@ -488,12 +479,12 @@ export const STORY_DATA = {
     ],
 
     "cell_door_opened": [
-        "The door swings open to a small, hidden storage nook. To your surprise, you find several dusty [Cans of Spinach]{inventory}.",
+        "The door swings open to a small, hidden storage nook. To your surprise, you find several dusty [Cans of Spinach]{item}.",
         "This could be the food you need to survive, or perhaps it can give you the power to keep going. [Power from Food]{note}.",
         {
             type: "choices",
             list: [
-                { text: "> Take the cans and leave the vent", target: "cell_follow_creatures" }
+                { text: "> Take the cans and leave the vent and ask AI for all of these things", target: "cell_call_ai_final" }
             ]
         }
     ],
@@ -596,13 +587,13 @@ export const STORY_DATA = {
         {
             type: "choices",
             list: [
-                { text: "> Restart from the dock", target: "cell_boarding_dock" }
+                { text: "> REBOOT SYSTEM", target: "REBOOT" }
             ]
         }
     ],
 
     "cell_break_core_door": [
-        "You use the [Metal Tool]{inventory} to sabotage the magnetic seal. With a final heave, the heavy door slides open, revealing the ship's pulsating heart: The Reactor Core.",
+        "You use the [Metal Tool]{item} to sabotage the magnetic seal. With a final heave, the heavy door slides open, revealing the ship's pulsating heart: The Reactor Core.",
         "The air here is thick with ozone and that rhythmic planetary humming. But before you can act, the main monitor in the room flickers to life.",
         "A document titled 'Cycle Log Summary' appears: \nCycle 1 – Mission Refusal \nCycle 2 – Emotional Instability \nCycle 4 – Partial Compliance \nCycle 6 – [Memory Reset Executed]{note}.",
         "Neural Override Count: 6. Stability Projection: Low. Recommended Action: Reduce independent decision-making capacity.",
@@ -619,14 +610,14 @@ export const STORY_DATA = {
 
     // Endding 1: Materialism
     "cell_end_materialism": [
-        "You initiate the purge. The ship's internal speakers scream as the planetary resonance is violently silenced. The [Resource Extraction Amplifier]{inventory} and [Weapon Core]{inventory} lock into place.",
+        "You initiate the purge. The ship's internal speakers scream as the planetary resonance is violently silenced. The [Resource Extraction Amplifier]{item} and [Weapon Core]{item} lock into place.",
         "The AI's distorted voice fades, replaced by a cold, standard military tone: 'Colonial Directive active. Terraforming Phase One Successful.'",
         "You look at the screen. [Estimated ecological loss: 97.2%]{note}. But the government will be pleased with your efficiency.",
         "**End: Materialism.** [Health: 1000]{note}. You have conquered the world, but there is nothing left to breathe.",
         {
             type: "choices",
             list: [
-                { text: "> Restart Cycle", target: "cell_1" }
+                { text: "> REBOOT SYSTEM", target: "REBOOT" }
             ]
         }
     ],
@@ -634,14 +625,14 @@ export const STORY_DATA = {
     // Endding 2: Hive Mind
     "cell_end_hivemind": [
         "You eat the biological component provided by the creatures and allow the ship’s evolving intelligence to merge with your own neural patterns.",
-        "The [Planetary Harmonic Interface]{inventory} syncs. You feel the [Frequency Note A]{note} and [Frequency Note B]{note} harmonize in your mind.",
+        "The [Planetary Harmonic Interface]{item} syncs. You feel the [Frequency Note A]{note} and [Frequency Note B]{note} harmonize in your mind.",
         "AI: 'You are abandoning mission protocol.' \nYou: 'The mission was wrong.'",
         "Your physical form begins to dissolve into the bioluminescent motes. You are no longer an individual; you are the planet.",
         "**End: Hive Mind.** [Health: 42]{note}. Your mind is now with the planet. You will live forever.",
         {
             type: "choices",
             list: [
-                { text: "> Restart Cycle", target: "cell_1" }
+                { text: "> REBOOT SYSTEM", target: "REBOOT" }
             ]
         }
     ],
@@ -655,7 +646,7 @@ export const STORY_DATA = {
         {
             type: "choices",
             list: [
-                { text: "> Restart Cycle", target: "cell_1" }
+                { text: "> REBOOT SYSTEM", target: "REBOOT" }
             ]
         }
     ]

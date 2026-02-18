@@ -157,6 +157,16 @@ if (gameTitle) {
                 await addInventoryItem(ownerId, word, "story");
                 inventory = await loadInventory(ownerId);
                 refreshUI();
+            },
+            onChoiceClick: (target) => {
+                if (target === "REBOOT") {
+                    document.body.style.opacity = "0";
+                    setTimeout(() => {
+                        window.location.href = "/";
+                    }, 800);
+                    return true;
+                }
+                return false;
             }
         });
   }
