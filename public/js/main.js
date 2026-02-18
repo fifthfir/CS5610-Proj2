@@ -157,18 +157,10 @@ if (gameTitle) {
                 await addInventoryItem(ownerId, word, "story");
                 inventory = await loadInventory(ownerId);
                 refreshUI();
-            },
-            onChoiceClick: (target) => {
-                if (target === "REBOOT") {
-                    document.body.style.opacity = "0";
-                    setTimeout(() => {
-                        window.location.href = "/";
-                    }, 800);
-                    return true;
-                }
-                return false;
             }
         });
+
+        
   }
 
   await refreshUI();
@@ -177,3 +169,17 @@ if (gameTitle) {
 boot().catch((e) => {
   console.error("Critical boot failure:", e);
 });
+
+document.addEventListener("click", (e) => {
+    const isChoice = e.target.classList.contains("story-choice-text");
+    const text = e.target.textContent || "";
+    
+    if (isChoice && text.includes("REBOOT")) {
+        console.log("System Rebooting...");
+        
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        
+        window.location.href = "index.html"; 
+    }
+}, true);

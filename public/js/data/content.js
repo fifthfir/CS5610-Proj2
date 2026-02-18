@@ -521,7 +521,7 @@ export const STORY_DATA = {
         {
             type: "choices",
             list: [
-                { text: "> Agree to join the AI", target: "cell_agree_ai" },
+                { text: "> Agree to join them. But who knows if that's true? You have your own plan.", target: "cell_agree_ai" },
                 { text: "> Don't trust the AI", target: "cell_distrust_ai" }
             ]
         }
@@ -530,7 +530,8 @@ export const STORY_DATA = {
     "cell_agree_ai": [
         "The violet light on the screen grows warm. 'A wise choice. You are the only one who survived the synchronization.'",
         "The AI displays records of the [Small Creatures]{note}. 'These are our eyes on the surface. They identified a compound in the external biosystems that can stabilize the reactor core.'",
-        "By joining us, you understand the planet's rhythm. [understands_planet = true]{note}",
+        "By joining us, you understand the planet's rhythm. ",
+        "[understands_planet = true]{note}",
         {
             type: "choices",
             list: [
@@ -541,7 +542,7 @@ export const STORY_DATA = {
 
     "cell_distrust_ai": [
         "AI: 'A predictable biological response. Fear is a relic of your old self.'",
-        "Suddenly, a sharp feedback loop rings in your ears. Your vision swims. [Health -1]{note}.",
+        "Suddenly, a sharp feedback loop rings in your ears. Your vision swims.",
         "AI: 'Do you not trust us? Or do you not trust your own people? Your government?'",
         {
             type: "choices",
