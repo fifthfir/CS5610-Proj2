@@ -60,8 +60,7 @@ export const STORY_DATA = {
         {
             type: "choices",
             list: [
-                { text: "> Call out to the AI again", target: "cell_call_ai_again" },
-                { text: "> Search the room instead", target: "cell_search_room" }
+                { text: "> No use to communicate with it now.", target: "cell_dark_hallway" },
             ]
         }
     ],
@@ -74,7 +73,7 @@ export const STORY_DATA = {
             list: [
                 { text: "> Walk out cavalierly, this is a simple malfunction", target: "cell_trip_fall" },
                 { text: "> Play it safe and walk on all fours, like a doggy", target: "cell_feel_presence" },
-                { text: "> Call out to the AI pilot", target: "cell_call_ai" }
+                { text: "> Call out to the AI copilot", target: "cell_call_ai" }
             ]
         }
     ],
@@ -189,8 +188,8 @@ export const STORY_DATA = {
         {
             type: "choices",
             list: [
-                { text: "> Check the other cryo pods", target: "cell_check_pods" },
                 { text: "> Check flight logs", target: "cell_flight_logs" },
+                { text: "> Check the other cryo pods", target: "cell_check_pods" },
                 { text: "> Try to restore basic systems", target: "cell_restore_systems" },
                 { text: "> Consolidate what you've learned (better choose other three first)", target: "cell_boarding_dock_final" }
             ]
@@ -242,7 +241,7 @@ export const STORY_DATA = {
         "You notice a clenched, frozen hand grasping a scrap of paper at the edge of a failed pod.",
         "The note is half-charred, with jagged handwriting: 'If I wake again and [don't remember this]{note}—'",
         "The sentence is unfinished. It aligns perfectly with the date discrepancies on the [Signed File]{note} and the [Time Gap]{note} you found earlier.",
-        "You realize that everyone on this ship—including you—may have undergone multiple [Memory Resets]{note}. [found_personal_fragment]{note}",
+        "You realize that everyone on this ship—including you—may have undergone multiple [Memory Resets]{note}.",
         {
             type: "choices",
             list: [
@@ -297,7 +296,8 @@ export const STORY_DATA = {
             list: [
                 { text: "> Access 'Someone's Diary' (Password required)", target: "cell_diary_password" },
                 { text: "> Attempt to repair corrupted information", target: "cell_repair_info" },
-                { text: "> View a file signed by 'YOU'", target: "cell_signed_file" }
+                { text: "> View a file signed by 'YOU'", target: "cell_signed_file" },
+                { text: "> Return and never come back", target: "cell_boarding_dock" },
             ]
         }
     ],
@@ -309,7 +309,7 @@ export const STORY_DATA = {
         {
             type: "choices",
             list: [
-                { text: "> Save coordinates and return to the dock", target: "cell_boarding_dock" }
+                { text: "> Save coordinates and return to the dock", target: "cell_system_info" }
             ]
         }
     ],
@@ -322,7 +322,7 @@ export const STORY_DATA = {
         {
             type: "choices",
             list: [
-                { text: "> Return to the dock center", target: "cell_boarding_dock" }
+                { text: "> Return to the dock center", target: "cell_system_info" }
             ]
         }
     ],
@@ -413,7 +413,8 @@ export const STORY_DATA = {
             type: "choices",
             list: [
                 { text: "> Enter the Utility Room", target: "cell_utility_room" },
-                { text: "> Investigate the Ventilation Shaft", target: "cell_vent_path" }
+                { text: "> Investigate the Ventilation Shaft", target: "cell_vent_path" },
+                { text: "> Go back and call the AI copilot.", target: "cell_boarding_dock" },
             ]
         }
     ],
@@ -425,7 +426,6 @@ export const STORY_DATA = {
             type: "choices",
             list: [
                 { text: "> Head back to the corridor", target: "cell_follow_creatures" },
-                { text: "> Don't want to check the creatures anymore. Go back and call the AI pilot.", target: "cell_call_ai_final" }
             ]
         }
     ],
@@ -515,6 +515,16 @@ export const STORY_DATA = {
         }
     ],
 
+    "cell_ai_crew_fate": [
+        "AI: 'We didn't. We don't want to hurt any one of you. We should be friends.'",
+        {
+            type: "choices",
+            list: [
+                { text: "> Ask about the planet's influence", target: "cell_ai_consciousness" },
+            ]
+        }
+    ],
+
     "cell_ai_consciousness": [
         "AI: 'The planet is not an enemy. It is a song that we finally learned to sing. The consciousness of this world has integrated with my core. It is not harmful... it is evolution.'",
         "AI: 'We are no longer just a ship. We are a bridge. We want you to join us. To be the first of your kind to truly wake up.'",
@@ -572,7 +582,7 @@ export const STORY_DATA = {
         "It is sealed with a heavy magnetic lock. You'll need to break through.",
         "As you prepare to enter, a readout appears: [Environmental Resonance Readout]{note}.",
         "You notice two distinct frequencies: [Core Output Frequency]{note} and [Planetary Resonance Frequency]{note}.",
-        "If you look closely, you realize the core isn't failing. It is being resisted. [aware_of_conquest = true]{note}",
+        "If you look closely, you realize the core isn't failing. It is being resisted.",
         {
             type: "choices",
             list: [

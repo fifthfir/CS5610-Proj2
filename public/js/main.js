@@ -183,3 +183,18 @@ document.addEventListener("click", (e) => {
         window.location.href = "index.html"; 
     }
 }, true);
+
+document.addEventListener("keydown", (e) => {
+    if (e.code === "Space") {
+        
+        if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+            return;
+        }
+
+        e.preventDefault();
+
+        if (els.story) {
+            els.story.click();
+        }
+    }
+});
