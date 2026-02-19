@@ -1,5 +1,3 @@
-import { apiFetch } from "./apiClient.js";
-
 const KEY = "save_token_v1";
 
 export function generateToken() {

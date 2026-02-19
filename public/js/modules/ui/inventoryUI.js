@@ -20,7 +20,7 @@ export async function deleteInventoryItem(ownerId, id) {
   await apiFetch(`/api/inventory/${id}`, { method: "DELETE", ownerId });
 }
 
-export function renderInventory(listEl, items, { onToggleInspect, onTogglePin, onDelete }) {
+export function renderInventory(listEl, items, { _onToggleInspect, onTogglePin, onDelete }) {
   listEl.innerHTML = "";
   if (!items || !items.length) {
     listEl.innerHTML = `<div class="empty">No items yet.</div>`;

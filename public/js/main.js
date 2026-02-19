@@ -1,6 +1,6 @@
 import { ensureOwnerId } from "./modules/session.js";
 import { renderStory, setInitialProgress } from "./modules/ui/storyUI.js";
-import { STORY_DATA } from "./data/content.js";
+// import { STORY_DATA } from "./data/content.js";
 
 import { loadNotes, createNote, updateNote, deleteNote, renderNotes } from "./modules/ui/notesUI.js";
 import {
