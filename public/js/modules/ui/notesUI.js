@@ -23,6 +23,8 @@ export async function deleteNote(ownerId, id) {
 }
 
 export function renderNotes(listEl, notes, { onEdit, onDelete }) {
+  notes = Array.isArray(notes) ? notes : [];
+  
   listEl.innerHTML = "";
   if (!notes.length) {
     listEl.innerHTML = `<div class="empty">No notes yet.</div>`;
