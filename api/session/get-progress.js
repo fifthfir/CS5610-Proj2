@@ -10,11 +10,11 @@ export default async function handler(req, res) {
 
     const doc = await col.findOne({ ownerId });
 
-    return res.status(200).json(
-      doc || { ownerId, progress: {}, flags: {}, updatedAt: null }
-    );
+    return res.status(200).json({
+      ok: true,
+      currentSection: doc?.currentSection ?? null,
+    });
   } catch (e) {
-    console.error("GET /api/session/get-progress error:", e);
     return res.status(500).json({ error: e.message });
   }
 }

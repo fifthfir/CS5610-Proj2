@@ -9,29 +9,28 @@ export default async function handler(req, res) {
 
     const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
 
-    const ownerId = body?.ownerId || body?.owner || body?.Id || body?.id;
+    const ownerId =
+      body?.ownerId ||
+      req.headers["x-owner-id"] || null;
+
     if (!ownerId) return res.status(400).json({ error: "Missing ownerId" });
 
-    const progress = body?.progress ?? body?.data ?? body?.session ?? {};
-    const flags = body?.flags ?? {};
+    const currentSection = body?.currentSection ?? null;
 
     const db = await getDb();
     const col = db.collection("sessions");
 
-    const update = {
-      $set: { ownerId, progress, flags, updatedAt: new Date() },
-      $setOnInsert: { createdAt: new Date() },
-    };
-
-    const r = await col.findOneAndUpdate(
+    await col.updateOne(
       { ownerId },
-      update,
-      { upsert: true, returnDocument: "after" }
+      {
+        $set: { ownerId, currentSection, updatedAt: new Date() },
+        $setOnInsert: { createdAt: new Date() },
+      },
+      { upsert: true }
     );
 
-    return res.status(200).json({ ok: true, saved: true, session: r.value });
+    return res.status(200).json({ ok: true, data: { ownerId, currentSection } });
   } catch (e) {
-    console.error("save-progress error:", e);
     return res.status(500).json({ error: e.message });
   }
 }
