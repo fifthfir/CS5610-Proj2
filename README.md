@@ -77,3 +77,8 @@ Placeholder
 ##  Reference
 
 The TV series: Scavengers Reign https://www.imdb.com/title/tt21056886/
+
+##  As usual
+The pixel icon is created by Ruotian Zhang using Clip Studio Paint.
+![icon.gif](./public/assets/icon.gif)
+
