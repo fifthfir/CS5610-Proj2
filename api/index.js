@@ -1,9 +1,9 @@
 import "dotenv/config";
 import express from "express";
 
-import sessionRoutes from "./routes/session.routes.js";
-import notesRoutes from "./routes/notes.routes.js";
-import inventoryRoutes from "./routes/inventory.routes.js";
+import sessionRoutes from "../server/routes/session.routes.js";
+import notesRoutes from "../server/routes/notes.routes.js";
+import inventoryRoutes from "../server/routes/inventory.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,7 +22,7 @@ app.listen(PORT, async () => {
   console.log("Trying to connect to database...");
   
   try {
-    const { getDb } = await import("./db/mongo.js"); 
+    const { getDb } = await import("../server/db/mongo.js"); 
     
     const db = await getDb();
     
