@@ -20,6 +20,7 @@ Deployment link: https://cs5610p2.vercel.app/
 ## Screenshots
 The start page: ![start.png](./public/assets/sc1-start.png)
 The main game page: ![interface.png](./public/assets/sc2-interface.png)
+The plot diagram: ![plots.png](./public/assets/plots.png)
 
 ## Instructions to Build & Run (if needed)
 1. **Clone the repository:**
