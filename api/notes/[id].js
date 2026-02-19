@@ -1,29 +1,43 @@
 import { ObjectId } from "mongodb";
 import { getDb } from "../_mongo.js";
 
+function ownerIdFromReq(req) {
+  const ownerId = req.headers["x-owner-id"] || req.query.ownerId;
+  if (!ownerId) throw new Error("Missing ownerId (X-Owner-Id header or ?ownerId=)");
+  return ownerId;
+}
+
 export default async function handler(req, res) {
   try {
+    const ownerId = ownerIdFromReq(req);
     const { id } = req.query;
     const db = await getDb();
-    const col = db.collection("notes");
 
     if (req.method === "PUT") {
-      const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body;
-      await col.updateOne(
-        { _id: new ObjectId(id) },
-        { $set: { text: body.text, updatedAt: new Date() } }
+      const body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
+      const { text } = body;
+      if (!text || typeof text !== "string") throw new Error("Missing note text");
+
+      const result = await db.collection("notes").findOneAndUpdate(
+        { _id: new ObjectId(id), ownerId },
+        { $set: { text: text.trim(), updatedAt: new Date() } },
+        { returnDocument: "after" }
       );
-      return res.status(200).json({ data: { ok: true } });
+
+      const updatedDoc = result?.value !== undefined ? result.value : result;
+      if (!updatedDoc) return res.status(404).json({ ok: false, error: "Note not found" });
+
+      return res.json({ ok: true, data: updatedDoc });
     }
 
     if (req.method === "DELETE") {
-      await col.deleteOne({ _id: new ObjectId(id) });
-      return res.status(200).json({ data: { ok: true } });
+      const r = await db.collection("notes").deleteOne({ _id: new ObjectId(id), ownerId });
+      return res.json({ ok: true, deletedCount: r.deletedCount });
     }
 
     res.setHeader("Allow", ["PUT", "DELETE"]);
-    return res.status(405).json({ error: "Method Not Allowed" });
+    return res.status(405).json({ ok: false, error: "Method Not Allowed" });
   } catch (e) {
-    return res.status(500).json({ error: e.message });
+    return res.status(400).json({ ok: false, error: e.message });
   }
 }

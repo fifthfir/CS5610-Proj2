@@ -2,19 +2,17 @@ import { getDb } from "../_mongo.js";
 
 export default async function handler(req, res) {
   try {
-    const ownerId = req.query?.ownerId;
-    if (!ownerId) return res.status(400).json({ error: "Missing ownerId" });
+    if (req.method !== "GET") {
+      res.setHeader("Allow", ["GET"]);
+      return res.status(405).json({ ok: false, error: "Method Not Allowed" });
+    }
 
+    const ownerId = req.query.ownerId;
     const db = await getDb();
-    const col = db.collection("sessions");
+    const progress = await db.collection("progress").findOne({ ownerId });
 
-    const doc = await col.findOne({ ownerId });
-
-    return res.status(200).json({
-      ok: true,
-      currentSection: doc?.currentSection ?? null,
-    });
+    return res.json({ ok: true, currentSection: progress?.currentSection || "cell_1" });
   } catch (e) {
-    return res.status(500).json({ error: e.message });
+    return res.status(400).json({ ok: false, error: e.message });
   }
 }
