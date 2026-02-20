@@ -22,18 +22,18 @@ app.use("/api/crafts", craftRoutes); // WIP
 app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`);
   console.log("Trying to connect to database...");
-  
+
   try {
-    const { getDb } = await import("../server/db/mongo.js"); 
-    
+    const { getDb } = await import("../server/db/mongo.js");
+
     const db = await getDb();
-    
+
     if (db) {
       console.log("Success: connected!");
     }
   } catch (err) {
     console.error("connected failed:", err.message);
-    
+
     if (err.message.includes("Cannot find module")) {
       console.log("Please check import path.");
     }

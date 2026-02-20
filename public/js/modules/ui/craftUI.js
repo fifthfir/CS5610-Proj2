@@ -56,23 +56,22 @@ export async function attemptCraft(ownerId, onCraftSuccess) {
 
 export function renderCraftInterface(container, { onStateChange }) {
   container.innerHTML = `
-    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-      <div style="border: 1px dashed var(--border); padding: 8px; flex: 1; min-height: 35px; display: flex; align-items: center; justify-content: space-between;">
-        <span style="font-size: 0.8rem;">${craftSlots[0] ? craftSlots[0].name : "Slot 1"}</span>
-        ${craftSlots[0] ? `<button class="btn-remove" data-index="0" style="padding: 2px 6px; background: transparent; color: red; border: 1px solid red; cursor: pointer;">X</button>` : ""}
+    <div class="craft-slots-container">
+      <div class="craft-slot">
+        <span class="craft-slot-text">${craftSlots[0] ? craftSlots[0].name : "Slot 1"}</span>
+        ${craftSlots[0] ? `<button class="btn-remove-craft" data-index="0">X</button>` : ""}
       </div>
-      <div style="border: 1px dashed var(--border); padding: 8px; flex: 1; min-height: 35px; display: flex; align-items: center; justify-content: space-between;">
-        <span style="font-size: 0.8rem;">${craftSlots[1] ? craftSlots[1].name : "Slot 2"}</span>
-        ${craftSlots[1] ? `<button class="btn-remove" data-index="1" style="padding: 2px 6px; background: transparent; color: red; border: 1px solid red; cursor: pointer;">X</button>` : ""}
+      <div class="craft-slot">
+        <span class="craft-slot-text">${craftSlots[1] ? craftSlots[1].name : "Slot 2"}</span>
+        ${craftSlots[1] ? `<button class="btn-remove-craft" data-index="1">X</button>` : ""}
       </div>
     </div>
-    <button id="btn-combine" style="width: 100%; padding: 8px; background: #000; color: #4db8ff; border: 1px solid #4db8ff; cursor: pointer;" ${craftSlots[0] && craftSlots[1] ? "" : "disabled"}>
+    <button id="btn-combine" class="btn-combine" ${craftSlots[0] && craftSlots[1] ? "" : "disabled"}>
       COMBINE
     </button>
   `;
-
   // Handle removing items from slots
-  container.querySelectorAll(".btn-remove").forEach(btn => {
+  container.querySelectorAll(".btn-remove-craft").forEach(btn => {
     btn.onclick = () => {
       const idx = btn.getAttribute("data-index");
       craftSlots[idx] = null;

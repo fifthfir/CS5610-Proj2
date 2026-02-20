@@ -1,4 +1,4 @@
-import { apiFetch } from "../apiClient.js"; 
+import { apiFetch } from "../apiClient.js";
 
 export async function loadInventory(ownerId) {
   const resp = await apiFetch("/api/inventory", { ownerId });
@@ -11,8 +11,8 @@ export async function addInventoryItem(ownerId, name, source = "story") {
 }
 
 export async function updateInventoryItem(ownerId, id, patch) {
-  const resp = await apiFetch(`/api/inventory/${id}`, 
-    { method: "PUT", ownerId, body: patch});
+  const resp = await apiFetch(`/api/inventory/${id}`,
+    { method: "PUT", ownerId, body: patch });
   return resp.data;
 }
 
@@ -20,7 +20,7 @@ export async function deleteInventoryItem(ownerId, id) {
   await apiFetch(`/api/inventory/${id}`, { method: "DELETE", ownerId });
 }
 
-export function renderInventory(listEl, items, { _onToggleInspect, onTogglePin, onDelete }) {
+export function renderInventory(listEl, items, { _onToggleInspect, onTogglePin, onDelete, onSendToCraft }) {
   listEl.innerHTML = "";
   if (!items || !items.length) {
     listEl.innerHTML = `<div class="empty">No items yet.</div>`;
@@ -43,6 +43,14 @@ export function renderInventory(listEl, items, { _onToggleInspect, onTogglePin, 
     // This calls the logic in main.js
     pinBtn.onclick = () => onTogglePin(it._id, !it.pinned);
 
+    // Send to Craft Button
+    const craftBtn = document.createElement("button");
+    craftBtn.type = "button";
+    craftBtn.textContent = "Craft";
+    craftBtn.onclick = () => {
+      if (onSendToCraft) onSendToCraft(it);
+    };
+
     // Discard Button
     const delBtn = document.createElement("button");
     delBtn.type = "button";
@@ -50,7 +58,7 @@ export function renderInventory(listEl, items, { _onToggleInspect, onTogglePin, 
     delBtn.onclick = () => onDelete(it._id);
 
     // ... append others ...
-    row.append(name, pinBtn, delBtn); 
+    row.append(name, pinBtn, craftBtn, delBtn);
     listEl.appendChild(row);
   });
 }

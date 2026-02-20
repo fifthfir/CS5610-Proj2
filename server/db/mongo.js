@@ -18,9 +18,9 @@ export async function getDb() {
   try {
     client = new MongoClient(uri);
     await client.connect();
-    
+
     console.log(`Success: MongoDB connected. Now using database: ${dbName}`);
-    
+
     db = client.db(dbName);
 
     await db.collection("notes").createIndex({ ownerId: 1, updatedAt: -1 });

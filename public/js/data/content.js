@@ -1,6 +1,8 @@
 // public/js/data/content.js
 
 export const STORY_DATA = {
+
+    //INTRO - GETTING OUT OF CRYOPOD
     "cell_1": [
         "[System Log: Neural Override Count - Updated]{note}",
         "Wake up in a violent [shiver]{note}.",
@@ -29,10 +31,11 @@ export const STORY_DATA = {
         }
     ],
 
+    // OUT OF CRYOPOD
     "cell_push_door": [
         "Door breaks Free! You step out to feel an immediate wave of [heat]{note}.",
         "The air outside the cryochamber is much warmer than expected...",
-        "You find a [Bent Metal Rod]{item} on the floor, likely from the broken door mechanism.",
+        "You find a [Bent Metal Rod]{item} on the floor, likely from the broken door mechanism.", // remove Bent Metal Rod LATER !!
         {
             type: "choices",
             list: [
@@ -53,18 +56,6 @@ export const STORY_DATA = {
         }
     ],
 
-    "cell_call_ai": [
-        "The AI explains that all remaining power has been redirected to [life support systems]{note}, which is why the ship is dark.",
-        "It repeats the statement once more, almost identically, as if [buffering]{note} or recalibrating.",
-        "You notice a [Data Pad]{item} flashing near the terminal.",
-        {
-            type: "choices",
-            list: [
-                { text: "> No use to communicate with it now.", target: "cell_dark_hallway" },
-            ]
-        }
-    ],
-
     "cell_dark_hallway": [
         "Why is the ship so dark? Did the [landing]{note} go wrong?",
         "The emergency floor lights are out. You might need a Flashlight.",
@@ -78,6 +69,19 @@ export const STORY_DATA = {
         }
     ],
 
+    "cell_call_ai": [
+        "The AI explains that all remaining power has been redirected to [life support systems]{note}, which is why the ship is dark.",
+        "It repeats the statement once more, almost identically, as if [buffering]{note} or recalibrating.",
+        "You notice a [Data Pad]{item} flashing near the terminal.",
+        {
+            type: "choices",
+            list: [
+                { text: "> No use to communicate with it now.", target: "cell_dark_hallway" },
+            ]
+        }
+    ],
+    
+    // Falling onto Dead Crew Member 
     "cell_trip_fall": [
         "You stride forward with confidence, but your foot catches on a jagged piece of metal.",
         "You [Trip on something]{note} and slam into the cold floor. ",
@@ -92,8 +96,8 @@ export const STORY_DATA = {
 
     "cell_feel_presence": [
         "You reach out into the darkness. Your hand brushes against something [wet and squishy]{note}.",
-        "As your fingers trace the shape, a cold realization hits you: It's [Another crewmember]{note}!",
-        "They are cold. Unmoving. It appears they died from injuries during the flight, not because they were trapped.",
+        "Your fingers trace the shape, and a cold realization hits you: It's [Another crewmember]{note}!",
+        "Gone. Unmoving. Mushy. From the fluids, they clearly died from injuries during the flight.",
         {
             type: "choices",
             list: [
@@ -195,7 +199,7 @@ export const STORY_DATA = {
             ]
         }
     ],
-    
+
     // choice 1
     "cell_check_pods": [
         "The cryo pods are lined up in the shadows, emitting a faint, biting chill. As you draw closer, you notice the temperature of these units is unnaturally low.",
@@ -260,7 +264,7 @@ export const STORY_DATA = {
             ]
         }
     ],
-    
+
     // choice 2
     "cell_flight_logs": [
         "The terminal hums as it struggles to load. You watch fragmented data crawl across the flickering display.",
@@ -354,7 +358,7 @@ export const STORY_DATA = {
     "cell_diary_success": [
         "ACCESS GRANTED. The entry reads: 'Someone has been living on this ship while we slept. They say the small creatures feed on the resonance.'",
         "'The AI isn't just Algorithms. It has been invaded by a planetary consciousness.'",
-        "The entry ends with a desperate choice: 'Join this mystery world or run away, but how?'", 
+        "The entry ends with a desperate choice: 'Join this mystery world or run away, but how?'",
         "[found_personal_fragment]{note}",
         {
             type: "choices",
@@ -630,7 +634,7 @@ export const STORY_DATA = {
         }
     ],
 
-    // Endding 1: Materialism
+    // Ending 1: Materialism
     "cell_end_materialism": [
         "You initiate the purge. The ship's internal speakers scream as the planetary resonance is violently silenced. The [Resource Extraction Amplifier]{item} and [Weapon Core]{item} lock into place.",
         "The AI's distorted voice fades, replaced by a cold, standard military tone: 'Colonial Directive active. Terraforming Phase One Successful.'",
@@ -644,7 +648,7 @@ export const STORY_DATA = {
         }
     ],
 
-    // Endding 2: Hive Mind
+    // Ending 2: Hive Mind
     "cell_end_hivemind": [
         "You eat the biological component provided by the creatures and allow the ship’s evolving intelligence to merge with your own neural patterns.",
         "The [Planetary Harmonic Interface]{item} syncs. You feel the [Frequency Note A]{note} and [Frequency Note B]{note} harmonize in your mind.",
@@ -659,7 +663,7 @@ export const STORY_DATA = {
         }
     ],
 
-    // Endding 3: Silent Witness
+    // Ending 3: Silent Witness
     "cell_end_silent_witness": [
         "You refuse to play your part in either side's war. You shut down the core, silencing both the ship and the resonance, leaving the ship a cold, dark tomb.",
         "You gather what resources you can find and step out of the airlock into the unknown, unmapped wilderness of Sector K-27.",
