@@ -1,12 +1,15 @@
 // public/js/data/content.js
 
 export const STORY_DATA = {
+
+    //INTRO - GETTING OUT OF CRYOPOD
     "cell_1": [
         "[System Log: Neural Override Count - Updated]{note}",
         "Wake up in a violent shiver.",
-        "You awaken to see yourself in your Cryochamber.",
+        "You press your hands to the frosted glass of your Cryochamber.",
+        "You wipe away the ice to peer outside your frozen dorm",
         "The status lights flicker. The computerized voice echoes: [The journey was a success]{note}.",
-        "Why aren't the doors opening?",
+        "Why aren't these doors opening?",
         {
             type: "choices",
             list: [
@@ -29,10 +32,11 @@ export const STORY_DATA = {
         }
     ],
 
+    // OUT OF CRYOPOD
     "cell_push_door": [
         "Door breaks Free! You step out to feel an immediate wave of [heat]{note}.",
         "The air outside the cryochamber is much warmer than expected...",
-        "You find a [Bent Metal Rod]{item} on the floor, likely from the broken door mechanism.",
+        "You find a [Bent Metal Rod]{item} on the floor, likely from the broken door mechanism.", // remove Bent Metal Rod LATER !!
         {
             type: "choices",
             list: [
@@ -78,6 +82,19 @@ export const STORY_DATA = {
         }
     ],
 
+    "cell_call_ai": [
+        "The AI explains that all remaining power has been redirected to [life support systems]{note}, which is why the ship is dark.",
+        "It repeats the statement once more, almost identically, as if [buffering]{note} or recalibrating.",
+        "You notice a [Data Pad]{item} flashing near the terminal.",
+        {
+            type: "choices",
+            list: [
+                { text: "> No use to communicate with it now.", target: "cell_dark_hallway" },
+            ]
+        }
+    ],
+
+    // Falling onto Dead Crew Member 
     "cell_trip_fall": [
         "You stride forward with confidence, but your foot catches on a jagged piece of metal.",
         "You [Trip on something]{note} and slam into the cold floor. ",
@@ -99,7 +116,7 @@ export const STORY_DATA = {
             list: [
                 { text: "> Scream out in horror", target: "cell_scream" },
                 { text: "> Continue making your way out cautiously", target: "cell_cautious_exit" },
-                { text: "> Make your way to the survival kit stored here", target: "cell_survival_kit" }
+                //{ text: "> Make your way to the survival kit stored here", target: "cell_survival_kit" } // moved to after cell_cautious_exit
             ]
         }
     ],
@@ -111,14 +128,32 @@ export const STORY_DATA = {
             type: "choices",
             list: [
                 { text: "> Silence yourself and move on", target: "cell_cautious_exit" },
-                { text: "> Search for the survival kit", target: "cell_survival_kit" }
+                //{ text: "> Search for the survival kit", target: "cell_survival_kit" } // moved to after cell_cautious_exit
             ]
         }
     ],
 
+
+
+    // Just before Boarding Dock
+    "cell_cautious_exit": [
+        "Using the dim emergency lights—strips strewn along the floor, you guide yourself out.",
+        "You make your way towards a crossroads. The lights part to the left and right.",
+        {
+            type: "choices", // players must remember what left or right leads
+            list: [
+                { text: "> Follow the lights going to the left", target: "cell_boarding_dock" },
+                { text: "> Follow the lights on the right", target: "cell_survival_kit" } //rerouted for story clarity 
+            ]
+        }
+    ],
+
+
+    // FIRST ITEMS - Suvival kit + other items
     "cell_survival_kit": [
-        "You remember the emergency protocols. The Survival Kit should be bolted to the bulkhead in this sector.",
-        "You fumble in the dark until your hands click the latch open.",
+        "[You were never #1 in the Collegia]{note}, but memory did not fail you this time.",
+        "You remember the emergency protocols. [The Survival Kit should be located in the room to the right of this sector]{note}.",
+        "You fumble in the dark until your hands click the door latch open. The surival kit gear should be in here.",
         {
             type: "choices",
             list: [
@@ -126,65 +161,74 @@ export const STORY_DATA = {
                 { text: "> Take Food Ration", target: "cell_take_food" },
                 { text: "> Take Knapsack", target: "cell_take_knapsack" },
                 { text: "> Take BROKEN Flashlight", target: "cell_take_flashlight" },
-                { text: "> Take EXOGRADEX", target: "cell_take_exogradex" },
+                { text: "> Take Exoorgdex", target: "cell_take_exoorgdex" },
                 { text: "> Take Climbing Gear", target: "cell_take_climbing" },
-                { text: "> Let's go", target: "cell_cautious_exit" }
+                { text: "> Turn back to the crossroads", target: "cell_cautious_exit" } //should be okay
+            ]
+        }
+    ],
+    //shortened version for clarity
+    "cell_survival_kit_shortened": [
+        "The rest surival kit gear should be in here as well.",
+        {
+            type: "choices",
+            list: [
+                { text: "> Take First-aid Kit", target: "cell_take_firstaid" },
+                { text: "> Take Food Ration", target: "cell_take_food" },
+                { text: "> Take Knapsack", target: "cell_take_knapsack" },
+                { text: "> Take BROKEN Flashlight", target: "cell_take_flashlight" },
+                { text: "> Take Exoorgdex", target: "cell_take_exoorgdex" },
+                { text: "> Take Climbing Gear", target: "cell_take_climbing" },
+                { text: "> Turn back to the crossroads", target: "cell_cautious_exit" } //should be okay
             ]
         }
     ],
 
     "cell_take_flashlight": [
-        "You grab the [BROKEN Flashlight]{item}. It flickers but doesn't hold a steady beam.",
+        "You grab the [BROKEN Flashlight]{item}. It flickers but doesn't hold a steady beam. USELESS",
         {
             type: "choices",
             list: [
-                { text: "> Take other items in the kit", target: "cell_survival_kit" }
+                { text: "> Take other items in the kit", target: "cell_survival_kit_shortened" }
             ]
         }
     ],
 
     "cell_take_firstaid": [
-        "You secure the [First-aid Kit]{item}. It might be useful if that 'Trip' wasn't your last accident.",
-        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit" }] }
+        "You secure the [First-aid Kit]{item}. It might be useful. That fall from before won't be your last accident.",
+        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit_shortened" }] }
     ],
 
     "cell_take_food": [
         "A pack of [Food Ration]{item}. Tastes like chalk, but calories are calories.",
-        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit" }] }
+        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit_shortened" }] }
     ],
 
     "cell_take_knapsack": [
         "You shoulder the [Knapsack]{item}. More space to carry the weight of this mission.",
-        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit" }] }
+        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit_shortened" }] }
     ],
-
-    "cell_take_exogradex": [
-        "You find a canister of [EXOGRADEX]{item}. A specialized chemical compound.",
-        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit" }] }
+    // KEY ITEM
+    "cell_take_exoorgdex": [
+        "With the [Exoorgdex]{item}, we can now make useful observations and analysis over the creatures inhabiting this world.",
+        "With its encyclopedic knowledge of both our homeworld's native life forms and the aliens discovered by other discovery teams,",
+        "the data conglomerated by the Exoorgdex allows its AI systems to make accurate predictions of boths the niches and resources allotted by exotic organisms.",
+        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit_shortened" }] }
     ],
 
     "cell_take_climbing": [
-        "The [Climbing Gear]{item} is heavy, but the ship's vertical shafts might require it.",
-        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit" }] }
+        "The [Climbing Gear]{item} is heavy, but the exploring outside might require it.",
+        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit_shortened" }] }
     ],
 
-    "cell_cautious_exit": [
-        "Using the emergency lights—dim strips along the floor similar to those on an airplane—you guide yourself out.",
-        "You make your way toward the [Boarding Dock]{note}.",
-        {
-            type: "choices",
-            list: [
-                { text: "> Enter the docking bay", target: "cell_boarding_dock" }
-            ]
-        }
-    ],
 
+    // Boarding Dock
     "cell_boarding_dock": [
         "Using the emergency lights—the dim, rhythmic strobes typically seen on an airplane—you guide yourself toward the boarding dock.",
         "As you draw closer, the blaring [Alarm Horns]{note} pierce the silence. Something has definitely gone wrong during landing.",
         "The ship appears to be in [Admin Mode]{note}, conserving power for only the most vital systems.",
-        "You finally enter the dock. A haunting red-light emanates from throughout the room, casting long, jagged shadows.",
-        "There must be something weird that happened to this ship. I should figure it out first before going out to face the unknown.",
+        "You finally enter the [dock]{note}. Red-light emanates from throughout the room",
+        "You contemplate your next move.",
         {
             type: "choices",
             list: [
@@ -195,7 +239,7 @@ export const STORY_DATA = {
             ]
         }
     ],
-    
+
     // choice 1
     "cell_check_pods": [
         "The cryo pods are lined up in the shadows, emitting a faint, biting chill. As you draw closer, you notice the temperature of these units is unnaturally low.",
@@ -260,7 +304,7 @@ export const STORY_DATA = {
             ]
         }
     ],
-    
+
     // choice 2
     "cell_flight_logs": [
         "The terminal hums as it struggles to load. You watch fragmented data crawl across the flickering display.",
@@ -354,7 +398,7 @@ export const STORY_DATA = {
     "cell_diary_success": [
         "ACCESS GRANTED. The entry reads: 'Someone has been living on this ship while we slept. They say the small creatures feed on the resonance.'",
         "'The AI isn't just Algorithms. It has been invaded by a planetary consciousness.'",
-        "The entry ends with a desperate choice: 'Join this mystery world or run away, but how?'", 
+        "The entry ends with a desperate choice: 'Join this mystery world or run away, but how?'",
         "[found_personal_fragment]{note}",
         {
             type: "choices",
@@ -630,7 +674,7 @@ export const STORY_DATA = {
         }
     ],
 
-    // Endding 1: Materialism
+    // Ending 1: Materialism
     "cell_end_materialism": [
         "You initiate the purge. The ship's internal speakers scream as the planetary resonance is violently silenced. The [Resource Extraction Amplifier]{item} and [Weapon Core]{item} lock into place.",
         "The AI's distorted voice fades, replaced by a cold, standard military tone: 'Colonial Directive active. Terraforming Phase One Successful.'",
@@ -644,7 +688,7 @@ export const STORY_DATA = {
         }
     ],
 
-    // Endding 2: Hive Mind
+    // Ending 2: Hive Mind
     "cell_end_hivemind": [
         "You eat the biological component provided by the creatures and allow the ship’s evolving intelligence to merge with your own neural patterns.",
         "The [Planetary Harmonic Interface]{item} syncs. You feel the [Frequency Note A]{note} and [Frequency Note B]{note} harmonize in your mind.",
@@ -659,7 +703,7 @@ export const STORY_DATA = {
         }
     ],
 
-    // Endding 3: Silent Witness
+    // Ending 3: Silent Witness
     "cell_end_silent_witness": [
         "You refuse to play your part in either side's war. You shut down the core, silencing both the ship and the resonance, leaving the ship a cold, dark tomb.",
         "You gather what resources you can find and step out of the airlock into the unknown, unmapped wilderness of Sector K-27.",

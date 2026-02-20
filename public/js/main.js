@@ -2,6 +2,9 @@ import { ensureOwnerId } from "./modules/session.js";
 import { renderStory, setInitialProgress } from "./modules/ui/storyUI.js";
 // import { STORY_DATA } from "./data/content.js";
 
+// crafting system buttons
+import { renderCraftInterface, addItemToCraftSlot, attemptCraft } from "./modules/ui/craftUI.js";
+
 import { loadNotes, createNote, updateNote, deleteNote, renderNotes } from "./modules/ui/notesUI.js";
 import {
   loadInventory,
@@ -23,13 +26,14 @@ const els = {
   invList: document.getElementById("inventoryList"),
   noteForm: document.getElementById("newNoteForm"),
   noteInput: document.getElementById("newNoteInput"),
+  craftPanel: document.querySelector("#craft-panel")
 };
 
 async function refreshUI() {
   console.log("Current Owner:", ownerId);
   if (!ownerId) {
-      console.error("Token missing! Cannot load data.");
-      return;
+    console.error("Token missing! Cannot load data.");
+    return;
   }
 
   if (els.notesList) {
@@ -65,58 +69,88 @@ async function refreshUI() {
         await deleteInventoryItem(ownerId, id);
         inventory = await loadInventory(ownerId);
         refreshUI();
+      },
+      // THIS IS THE NEW PART FOR CRAFTING
+      onSendToCraft: (item) => {
+        const added = addItemToCraftSlot(item);
+        if (!added) alert("Crafting slots are full or item already added.");
+        refreshUI();
       }
     });
+  }
+
+  if (els.craftPanel) {
+    // Clear the placeholder text
+    const placeholder = els.craftPanel.querySelector(".muted");
+    if (placeholder) placeholder.remove();
+
+    renderCraftInterface(els.craftPanel, {
+      onStateChange: () => refreshUI()
+    });
+
+    const combineBtn = document.getElementById("btn-combine");
+    if (combineBtn && !combineBtn.disabled) {
+      combineBtn.onclick = async () => {
+        const success = await attemptCraft(ownerId, async (id1, id2, resultName, message) => {
+          await deleteInventoryItem(ownerId, id1);
+          await deleteInventoryItem(ownerId, id2);
+          await addInventoryItem(ownerId, resultName, "crafted");
+          alert("Success: " + message);
+        });
+        inventory = await loadInventory(ownerId);
+        refreshUI();
+      };
+    }
   }
 }
 
 async function boot() {
   console.log("System initializing...");
-  
-const gameTitle = document.querySelector(".title"); 
 
-if (gameTitle) {
-    gameTitle.style.cursor = "pointer"; 
+  const gameTitle = document.querySelector(".title");
+
+  if (gameTitle) {
+    gameTitle.style.cursor = "pointer";
     gameTitle.addEventListener("click", () => {
-        window.location.href = "/"; 
+      window.location.href = "/";
     });
-}
+  }
 
-  ownerId = await ensureOwnerId(); 
+  ownerId = await ensureOwnerId();
   if (!ownerId) return;
   localStorage.setItem("game_owner_id", ownerId);
 
   try {
     notes = await loadNotes(ownerId);
     inventory = await loadInventory(ownerId);
-    
+
     const progressRes = await fetch(`/api/session/get-progress?ownerId=${ownerId}`);
     const progressData = await progressRes.json();
     if (progressData.ok && progressData.currentSection) {
-        setInitialProgress(progressData.currentSection);
+      setInitialProgress(progressData.currentSection);
     }
   } catch (err) {
     console.warn("Initial data or progress load failed:", err);
   }
 
-  const tokenDisplay = document.getElementById("displayToken"); 
+  const tokenDisplay = document.getElementById("displayToken");
   const copyCheck = document.getElementById("copyCheck");
 
   if (tokenDisplay) {
-      tokenDisplay.textContent = ownerId;
-      tokenDisplay.addEventListener("click", async () => {
-          try {
-              await navigator.clipboard.writeText(ownerId);
-              if (copyCheck) copyCheck.style.opacity = "1";
-              tokenDisplay.style.color = "#fff";
-              setTimeout(() => {
-                  if (copyCheck) copyCheck.style.opacity = "0";
-                  tokenDisplay.style.color = "#4db8ff";
-              }, 800);
-          } catch (err) {
-              console.error("Copy failed", err);
-          }
-      });
+    tokenDisplay.textContent = ownerId;
+    tokenDisplay.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(ownerId);
+        if (copyCheck) copyCheck.style.opacity = "1";
+        tokenDisplay.style.color = "#fff";
+        setTimeout(() => {
+          if (copyCheck) copyCheck.style.opacity = "0";
+          tokenDisplay.style.color = "#4db8ff";
+        }, 800);
+      } catch (err) {
+        console.error("Copy failed", err);
+      }
+    });
   }
 
   if (els.token) {
@@ -138,29 +172,29 @@ if (gameTitle) {
       const text = els.noteInput.value.trim();
       if (!text) return;
       await createNote(ownerId, text, "manual");
-      els.noteInput.value = ""; 
+      els.noteInput.value = "";
       notes = await loadNotes(ownerId);
       refreshUI();
     });
   }
 
   if (els.story) {
-        renderStory(els.story, {
-            notes,    
-            inventory,
-            onAddNote: async (word) => {
-                await createNote(ownerId, word, "story");
-                notes = await loadNotes(ownerId);
-                refreshUI();
-            },
-            onAddInventory: async (word) => {
-                await addInventoryItem(ownerId, word, "story");
-                inventory = await loadInventory(ownerId);
-                refreshUI();
-            }
-        });
+    renderStory(els.story, {
+      notes,
+      inventory,
+      onAddNote: async (word) => {
+        await createNote(ownerId, word, "story");
+        notes = await loadNotes(ownerId);
+        refreshUI();
+      },
+      onAddInventory: async (word) => {
+        await addInventoryItem(ownerId, word, "story");
+        inventory = await loadInventory(ownerId);
+        refreshUI();
+      }
+    });
 
-        
+
   }
 
   await refreshUI();
@@ -171,36 +205,40 @@ boot().catch((e) => {
 });
 
 document.addEventListener("click", (e) => {
-    const isChoice = e.target.classList.contains("story-choice-text");
-    const text = e.target.textContent || "";
-    
-    if (isChoice && text.includes("REBOOT")) {
-        console.log("System Rebooting...");
-        
-        e.stopImmediatePropagation();
-        e.preventDefault();
-        
-        window.location.href = "index.html"; 
-    }
+  const isChoice = e.target.classList.contains("story-choice-text");
+  const text = e.target.textContent || "";
+
+  if (isChoice && text.includes("REBOOT")) {
+    console.log("System Rebooting...");
+
+    e.stopImmediatePropagation();
+    e.preventDefault();
+
+    window.location.href = "index.html";
+  }
 }, true);
 
 document.addEventListener("keydown", (e) => {
-    if (e.code === "Space") {
+  if (e.code === "Space") {
 
-        const active = document.activeElement;
+    const active = document.activeElement;
 
-        if (
-            active.tagName === "INPUT" ||
-            active.tagName === "TEXTAREA" ||
-            active.isContentEditable
-        ) {
-            return;
-        }
-
-        e.preventDefault();
-
-        if (els.story) {
-            els.story.click();
-        }
+    if (
+      active.tagName === "INPUT" ||
+      active.tagName === "TEXTAREA" ||
+      active.isContentEditable
+    ) {
+      return;
     }
+
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+      return;
+    }
+
+    e.preventDefault();
+
+    if (els.story) {
+      els.story.click();
+    }
+  }
 });
