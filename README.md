@@ -51,6 +51,12 @@ Since this project uses ES6 Modules, it must be run via a local server:
 
 - **Deployment**: This project was initially implemented as a traditional Express server. To enable public deployment on Vercel, the backend was refactored into a serverless-compatible architecture.
 
+## Team Contributions - CRUD Responsibilities
+
+- **Ruotian Zhang**: Implemented the CRUD systems for **Notes** and **Progress System** (create/edit/delete notes; save/load game progress per owner session).
+
+- **Alptug Guven**: Implemented the CRUD systems for **Inventory** and **Craft System** (collect/update/remove items; craft multiple items accroding to recipes).
+
 ##  GenAI Tool Usage
 We utilized Generative AI tools to assist in the development of this project:
 
@@ -76,7 +82,7 @@ We utilized Generative AI tools to assist in the development of this project:
 This project is licensed under the MIT License.
 
 ##  Video Demonstration
-Placeholder
+[video](https://youtu.be/c3TqooaOx7g)
 
 ##  Reference
 
