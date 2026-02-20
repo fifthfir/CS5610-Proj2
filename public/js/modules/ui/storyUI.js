@@ -1,5 +1,6 @@
 // storyUI.js
 import { STORY_DATA } from "../../data/content.js";
+import { loadInventory } from "./inventoryUI.js"; // <--- IMPORT ADDED HERE
 
 let currentSection = "cell_1";
 let currentLineIndex = 0;
@@ -13,14 +14,14 @@ export function setInitialProgress(sectionName) {
 
 export function loadSection(sectionName, container) {
     if (!STORY_DATA[sectionName]) return;
-    
+
     const wrapper = document.getElementById("story-lines-wrapper");
-    if (wrapper) wrapper.innerHTML = ""; 
-    
+    if (wrapper) wrapper.innerHTML = "";
+
     currentSection = sectionName;
     currentLineIndex = 0;
 
-    const savedOwnerId = localStorage.getItem("game_owner_id"); 
+    const savedOwnerId = localStorage.getItem("game_owner_id");
     if (savedOwnerId) {
         fetch("/api/session/save-progress", {
             method: "POST",
@@ -39,7 +40,7 @@ export function renderStory(container, { onAddNote, onAddInventory, notes = [], 
     if (!document.getElementById("story-lines-wrapper")) {
         container.innerHTML = `<div id="story-lines-wrapper" class="story-wrapper"></div>`;
     }
-    
+
     const wrapper = document.getElementById("story-lines-wrapper");
 
     const parseLine = (text, lineIdx) => {
@@ -66,7 +67,7 @@ export function renderStory(container, { onAddNote, onAddInventory, notes = [], 
             if (wrapper.querySelector(".story-choice-container")) return;
 
             renderTextChoices(currentLine.list);
-            return; 
+            return;
         }
 
         isTyping = true;
@@ -86,28 +87,47 @@ export function renderStory(container, { onAddNote, onAddInventory, notes = [], 
     };
 
     function renderTextChoices(choices) {
-    const choiceContainer = document.createElement("div");
-    choiceContainer.className = "story-choice-container"; 
+        const choiceContainer = document.createElement("div");
+        choiceContainer.className = "story-choice-container";
 
-    choices.forEach(choice => {
-        const choiceEl = document.createElement("p");
-        choiceEl.className = "story-line-item story-choice-text"; 
-        choiceEl.innerText = choice.text;
-        
-        choiceEl.onclick = (e) => {
-            e.stopPropagation();
-            loadSection(choice.target, document.getElementById("storyText"));
-            showNextLine();
-        };
-        
-        choiceContainer.appendChild(choiceEl);
-    });
-    
-    wrapper.appendChild(choiceContainer);
-    
-    const container = document.getElementById("storyText");
-    container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
-}
+        choices.forEach(choice => {
+            const choiceEl = document.createElement("p");
+            choiceEl.className = "story-line-item story-choice-text";
+            choiceEl.innerText = choice.text;
+
+            // MADE THE ONCLICK ASYNC TO AWAIT THE DATABASE
+            choiceEl.onclick = (e) => {
+                e.stopPropagation();
+
+                // --- START OF ITEM LOCK LOGIC --- //
+                if (choice.requires) {
+
+                    // Bypass browser cache entirely by reading the actual UI panel!
+                    const inventoryPanel = document.getElementById("inventoryList");
+                    const inventoryText = inventoryPanel ? inventoryPanel.innerText.toLowerCase() : "";
+                    const reqItem = choice.requires.toLowerCase().trim();
+
+                    // If the item name isn't physically in the inventory panel text, lock them out
+                    // BE WARY OF NAMING ITEMS SIMILIARLY
+                    if (!inventoryText.includes(reqItem)) {
+                        alert(choice.requireMessage || `You need a ${choice.requires} to proceed.`);
+                        return; // Aborts the click, trapping them in the room
+                    }
+                }
+                // --- END OF ITEM LOCK LOGIC --- //
+
+                loadSection(choice.target, document.getElementById("storyText"));
+                showNextLine();
+            };
+
+            choiceContainer.appendChild(choiceEl);
+        });
+
+        wrapper.appendChild(choiceContainer);
+
+        const container = document.getElementById("storyText");
+        container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+    }
 
     async function typeEffect(element, html, speed) {
         let i = 0;
@@ -117,7 +137,7 @@ export function renderStory(container, { onAddNote, onAddInventory, notes = [], 
         while (i < html.length) {
             if (skipTyping) {
                 element.innerHTML = html;
-                break; 
+                break;
             }
 
             let char = html[i];
@@ -138,13 +158,13 @@ export function renderStory(container, { onAddNote, onAddInventory, notes = [], 
     container.onclick = (e) => {
         if (window.getSelection().toString().length > 0) return;
         const target = e.target;
-        
+
         if (target.classList.contains("word-note") || target.classList.contains("word-inv")) {
             if (isTyping) { skipTyping = true; return; }
-            
+
             if (target.classList.contains("added")) {
                 console.log("This data already exists in your records.");
-                return; 
+                return;
             }
 
             if (target.classList.contains("word-note")) {
@@ -152,7 +172,7 @@ export function renderStory(container, { onAddNote, onAddInventory, notes = [], 
             } else {
                 onAddInventory(target.textContent);
             }
-            
+
             target.classList.add("added");
             return;
         }
