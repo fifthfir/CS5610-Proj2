@@ -577,6 +577,17 @@ export const STORY_DATA = {
         }
     ],
 
+    "cell_read_final_logs": [
+        "You scroll through classified appendices: kill-switch protocols, morale-containment scripts, and an executive summary written in the language of budgets and acceptable loss.",
+        "One line is stamped in red: [Authorization: EXOPLANETARY ACQUISITION / Indigenous Compliance Not Required]{note}.",
+        {
+            type: "choices",
+            list: [
+                { text: "> Back", target: "cell_find_way_out" },
+            ]
+        }
+    ],
+
     "cell_core_chamber": [
         "The floor panels slide away, revealing a path to the ship's heart. You reach the Core Chamber door.",
         "It is sealed with a heavy magnetic lock. You'll need to break through.",
