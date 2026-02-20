@@ -3,8 +3,10 @@
 
 export const RECIPES = [
     {
-        input: ["hungry glowbat larvae", "exotic fruit"],
+        input: ["hungry glowbat larvae", "exotic alien fruit"],
         result: "shining glowbat larvae",
         message: "The larvae consumes the fruit and begins to emit a bright, steady glow."
     }
+
+    // ONE DAY MORE!!!!
 ];

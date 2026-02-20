@@ -48,7 +48,7 @@ export async function attemptCraft(ownerId, onCraftSuccess) {
     clearCraftSlots();
     return true;
   } else {
-    alert("Crafting attempt failed: try thinking back to the collegia"); // Maybe change up text
+    alert("Crafting attempt failed: try thinking back to the Collegia"); // Maybe change up text
     clearCraftSlots();
     return false;
   }

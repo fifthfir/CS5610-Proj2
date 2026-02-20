@@ -135,15 +135,15 @@ export const STORY_DATA = {
 
 
 
-    // Just before Boarding Dock
+    // Just before Airlock
     "cell_cautious_exit": [
         "Using the dim emergency lights—strips strewn along the floor, you guide yourself out.",
         "You make your way towards a crossroads. The lights part to the left and right.",
         {
-            type: "choices", // players must remember what left or right leads
+            type: "choices",
             list: [
-                { text: "> Follow the lights going to the left", target: "cell_boarding_dock" },
-                { text: "> Follow the lights on the right", target: "cell_survival_kit" } //rerouted for story clarity 
+                { text: "> Head toward the lights towards the left", target: "cell_airlock_exit" },
+                { text: "> Follow the lights on the right", target: "cell_survival_kit" }
             ]
         }
     ],
@@ -217,14 +217,275 @@ export const STORY_DATA = {
     ],
 
     "cell_take_climbing": [
-        "The [Climbing Gear]{item} is heavy, but the exploring outside might require it.",
+        "The [Climbing Gear]{item} is heavy, but the exploring outside might require it. [Roger never let us use this before, but I am guessing he is gone now. Who is incompentent now then Roger?]{note}",
         { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit_shortened" }] }
     ],
 
+    //Airlock
+    //IN ORDER TO GO TO BOARDING LOCK, MUST HAVE "shining glowbat larvae" ITEM
+    // HARD LOCK FROM THE REST OF THE STORY (cell_boarding_dock) UNLESS AFOREMENTIONED ITEM IS CRAFTED
+    "cell_airlock_exit": [
+        "You stand in the airlock staging area. The heavy external door leads outside to the unknown.",
+        "The interior corridor continues toward the ship's boarding dock. It also serves as a makeshift central hub for crew operations on this makeshift reseach vessel. ",
+        //"[shining glowbat larvae]{item}", // FOR TESTING PURPOSES
+        {
+            type: "choices",
+            list: [
+                { text: "> Open the external door and step outside", target: "cell_jungle_overgrowth" },
+                {
+                    text: "> Proceed down the dark corridor to the Boarding Dock",
+                    target: "cell_boarding_dock",
+                    requires: "shining glowbat larvae",
+                    requireMessage: "It is pitch black ahead. You hear something skittering in the dark. You need a reliable light source to proceed."
+                },
+                { text: "> Go back", target: "cell_cautious_exit" }
+            ]
+        }
+    ],
 
-    // Boarding Dock
+    //Nature arc
+    //Welcome to the Jungle
+    "cell_jungle_overgrowth": [
+        "You feel immediately overwhelmed by the grandeur of the foliage before you.",
+        "On this alien world the trees seem to be as tall as the skyscrapers back in New New York,",
+        "but instead of office workers, janitor-bots, and air conditioners,",
+        "they are occupied by exotic species of creeping plants, animals, and fungi (or at least what appears to be so).",
+
+        "The dense jungle overgrowth makes it hard to see in certain areas.",
+        "It seems that light is going to be a luxury here as well...",
+        "The moss below explodes and poofs up with each step you take.",
+        "The spores cling to your boots, slowly forming a visible yellow crust.",
+        "Walking through the alien world's plant-life is already proving difficult",
+        "but it just goes to shows the capacity for life this planet was predicted to have was grossly underestimated! This is just what we came here to study.",
+        {
+            type: "choices",
+            list: [
+                {
+                    text: "> Stumble your way over to a rocky clearing",
+                    target: "cell_rocky_clearing"
+                },
+                {
+                    text: "> Let your curiousty overtake you and walk to enter the glowing cave",
+                    target: "cell_glowing_cave"
+                },
+                {
+                    text: "> This moss is everywhere, we might as well study it first",
+                    target: "cell_stinging_moss",
+                    requires: "Exoorgdex",
+                    requireMessage: "You can't properly analyze this alien flora with your bare hands. You need your Exoorgdex. Remember the Collegia!"
+                },
+                {
+                    text: "> Try practicing with your newfound climbing gear. Screw you Roger!",
+                    target: "cell_treetop",
+                    requires: "Climbing Gear",
+                    requireMessage: "That canopy is way too high to free-solo. You need Climbing Gear to get up there safely."
+                },
+                {
+                    text: "> Get back in the airlock.",
+                    target: "cell_airlock_exit"
+                }
+            ]
+        }
+    ],
+
+    //Start of Glowing Cave Exploration
+    "cell_glowing_cave": [
+        "You find your way to the mouth of the cave.",
+        "Within the abyss, you see the ceilings of the cave adorned with fluorescent light.",
+        "Lights so bright they dwarf what little shown through the leaves of the jungle from before.",
+        "A silent hum echoes throughout the cave...",
+        "The wanderlust fades as soon as you catch a whiff of the putrid, ammonia-filled air within.",
+        "The cave is noticeably damper than the jungle, while you shiver to think what gooey muck pervades the floor.",
+        {
+            type: "choices",
+            list: [
+                {
+                    text: "> Climb up the rocks to get a closer peak",
+                    target: "cell_glowing_cave_perilousclimb",
+                    requires: "Climbing Gear",
+                    requireMessage: "This rocky climb demands Climbing Gear to get up there safely. Do not fail the Collegia Standards!"
+                },
+                { text: "> Suck it up and dig through the muck for science. ", target: "cell_glowingcave_batpoop" },
+                { text: "> Get out of this sh*t h*le.", target: "cell_jungle_overgrowth" }
+            ]
+        }
+
+    ],
+
+    "cell_glowingcave_batpoop": [
+        "You find yourself deep in the vibrating, foul-smelling sludge.",
+        "All that for nothing.",
+        "*BLEHHHHHHH*",
+        {
+            type: "choices",
+            list: [
+                { text: "> Stand up and wipe your visor.", target: "cell_glowing_cave" }
+            ]
+        }
+    ],
+
+    "cell_glowing_cave_perilousclimb": [
+        "You step up to a higher vantage point and begin to distinguish the true producers of the cave's light source.",
+        "They are flying objects wrapped in darkness producing quick bursts of light zooming across the cave ceiling.",
+        "Responding in kind are what appear to be sessile blobs producing consistent sources of light.",
+        "The luminescence here seems not to exist simply for aesthetic purposes.",
+        "To get a read with the Exoorgdex, you must scale the walls themselves to get closer,",
+        "but which route up to take...",
+        {
+            type: "choices",
+            list: [
+                { text: "> Climb up the chalky surface to the left", target: "cell_glowing_cave_glowbatnests" }, //correct clone
+                { text: "> Take the middle root up and hold onto the wet sandstone", target: "cell_glowingcave_batpoop" }, //an unforntunate choice
+                { text: "> Go up the right and trust the dry sandstone", target: "cell_glowing_cave_glowbatnests" }, //correct clone
+                { text: "> On second thought...", target: "cell_glowing_cave" }
+            ]
+        }
+    ],
+
+    "cell_glowing_cave_glowbatnests": [
+        "You anchor yourself securely. You are now in range for an Exoorgdex scan.",
+        "Through your visor, you can see a thriving colony of creatures flying, eating, and living upon the ceiling.",
+        "The larger flyers, though mostly pitch-black, use those bright flashes to navigate and coordinate.",
+        "The glowing blobs are unmistakably their larvae firmly attached to the porous rock!",
+        "But why are the young constantly emitting that steady, beacon-like light?",
+        {
+            type: "choices",
+            list: [
+                { text: "> Scan the 'Flyers'", target: "cell_glowbat_exoorgdex" },
+                { text: "> Scan the 'Blobs'", target: "cell_glowbatlarvae_exoorgdex" },
+                { text: "> Climb down.", target: "cell_glowing_cave" }
+            ]
+        }
+    ],
+
+    "cell_glowbat_exoorgdex": [
+        "EXOORGDEX ENTRY:",
+        "Colloquial Name:",
+        "Glowbat",
+        "Description:",
+        "With a 1.5 meter wingspan, these flying creatures, while resembling bats of modern Earth, are actually composed of cells more closely related to fungi.",
+        "Pressurized tubes composed of chitin-adjacent compounds pump the 'muscles' of the creatures full of blood and power the wave-emitting sack that allows them the ability of echolocation.",
+        "They are highly adaptable omnivores. They use their echolocation to hunt small insects and flying prey, but frequently supplement their diet by foraging for the planet's sugar-rich flora.",
+        "When hunting, they employ a sudden, blinding burst of bioluminescence to disorient targets. This glowing 'sweat' is a direct metabolic byproduct of synthesizing their diverse diet of local flora and fauna.",
+        "Nutritional content:",
+        "Highly toxic to humans if consumed raw due to concentrated bioluminescent enzymes.",
+        {
+            type: "choices",
+            list: [
+                { text: "> Scan the 'Blobs' now", target: "cell_glowbatlarvae_exoorgdex" },
+                { text: "> Attempt to smash one of these filthy creatures", target: "cell_glowingcave_batpoop" }, //maybe add "required" attribute
+                { text: "> Move-in to grab a Glowbat", target: "cell_glowingcave_batpoop" },
+                { text: "> Climb back down to the cave floor", target: "cell_glowing_cave" }
+            ]
+        }
+    ],
+
+    "cell_glowbatlarvae_exoorgdex": [
+        "EXOORGDEX ENTRY:",
+        "Colloquial Name:",
+        "Glowbat - Larvae",
+        "Description:",
+        "Rotund yet small, these blobs emit quite the bright presence. While they do appear to have different larval stages, with their weight being anywhere from 1kg to 35 kg.",
+        "Unlike the omnivorous adults, these larvae are strict frugivores. Since they are sessile and hang firmly from the cave ceiling, they rely entirely on the parents to bring them sugar-rich fruits gathered from the jungle canopy.",
+        "They glow constantly because their immature metabolisms cannot yet regulate the bioluminescent 'sweat' produced by processing these alien sugars.",
+        "The Exoorgdex notes a fascinating adaptation: each larva glows in a slightly different hue, allowing the parents to identify their specific offspring in the crowded colony.",
+        {
+            type: "choices",
+            list: [
+                { text: "> Try grabbing one of the brightest larvae you can find.", target: "cell_glowingcave_batpoop" }, // no "hungry glowbat larvae" item path
+                { text: "> Figure out why one of them is dimmer than the rest...", target: "cell_glowingcave_harvestglowbatlarvae" }, // YES "hungry glowbat larvae" item path
+                { text: "> Scan the 'Flyers' now", target: "cell_glowbat_exoorgdex" },
+                { text: "> Climb back down to the cave floor", target: "cell_glowing_cave" }
+            ]
+        }
+    ],
+
+    "cell_glowingcave_harvestglowbatlarvae": [
+        "You closely observe a smaller larva flashing a weak, desperate amber hue.",
+        "It seems to have been completely overlooked by the adults during the latest feeding frenzy.",
+        "Unlike the brightly glowing larvae that are firmly fused to the porous rock, this one is barely clinging to the stalactite.",
+        "It must have been abandoned. As you reach out, it detaches easily into your hands, opening a toothless maw expectantly.",
+        "You carefully secure the [hungry glowbat larvae]{item}. It sticks to your glove like a heavy, warm puddle.",
+        {
+            type: "choices",
+            list: [
+                { text: "> Back off.", target: "cell_glowing_cave_glowbatnests" }
+            ]
+        }
+    ],
+    //End of Glowing Cave Exploration
+
+    //Start of Stinging Moss Studying
+    "cell_stinging_moss": [
+        "The thick yellow coating that forms as you wade through the thick moss clumps seems to be a warning enough to avoid direct skin contact.",
+        "(The Exoorgdex analyzes...)",
+        "EXOORGDEX ENTRY:",
+        "Colloquial Name: ",
+        "Stinging Moss",
+        "Description:",
+        "Stinging moss appears to have chemical agents that create histamine reactions in humans and other organisms.",
+        "This causes an immediate stinging sensation on the skin.",
+        "Before long, welts and blisters begin to develop. ",
+        "It grows profusely, aggressively reaching over the jungle soil to prevent any other species of plants from gaining any purchase. ",
+        "Nutritonal content:",
+        "Low, inedible to humans without heavy processing",
+        {
+            type: "choices",
+            list: [
+                { text: "> Move closer to the moss", target: "cell_stinging_moss_harvest" },
+                { text: "> Take another look around", target: "cell_jungle_overgrowth" }
+            ]
+        }
+    ],
+
+    "cell_stinging_moss_harvest": [
+        "You are close enough to a clump of [Stinging Moss]{item} that you can almost taste it.",
+        {
+            type: "choices",
+            list: [
+                { text: "> Move closer to lick the moss", target: "cell_stinging_moss_lick" },
+                { text: "> Take another look around", target: "cell_jungle_overgrowth" }
+            ]
+        }
+
+    ],
+
+    "cell_stinging_moss_lick": [
+        "*AHHH GOD THE PAIN*",
+        "Why did I just do that? I am letting the Collegia DOWN.",
+        {
+            type: "choices",
+            list: [
+                { text: "> Get away", target: "cell_jungle_overgrowth" }
+            ]
+        }
+
+    ],
+    //End of Stinging Moss Studying
+
+    //Climbing the Treetop for alien fruit
+    "cell_treetop": [
+        "Roger's nagging voice fades into the humid mist with each agonizing pull of your Climbing Gear.",
+        "The view is glorious",
+        "The air up here is thick with the scent of ozone and blooming flora.",
+        "Alien life of all varieties flits about the giant branches, fulfilling the exact ecological niches the Collegia predicted.",
+        "Small insect-like creatures dot about the branches, and the occassional broken bark stem.",
+        "All manner of life seem to depend on these gigantic trees!",
+        "You begin to feel the air  become sparse just as you notice a plump purple object within your midst",
+        "It is an [exotic alien fruit]{item}!",
+        "Where you see pretty petals, you shall also find delicious and nutritious alien fruits. The Collegia texts haven't failed you yet!",
+        {
+            type: "choices",
+            list: [
+                { text: "> Climb down", target: "cell_jungle_overgrowth" }
+            ]
+        }
+    ],
+
+    //Ship arc
+    // Boarding Dock NOTE: MAYBE EDIT TEXT FOR STORY CLARITY
     "cell_boarding_dock": [
-        "Using the emergency lights—the dim, rhythmic strobes typically seen on an airplane—you guide yourself toward the boarding dock.",
+        "Using your newfound friend, you guide yourself toward the boarding dock.",
         "As you draw closer, the blaring [Alarm Horns]{note} pierce the silence. Something has definitely gone wrong during landing.",
         "The ship appears to be in [Admin Mode]{note}, conserving power for only the most vital systems.",
         "You finally enter the [dock]{note}. Red-light emanates from throughout the room",
