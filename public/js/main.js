@@ -186,8 +186,14 @@ document.addEventListener("click", (e) => {
 
 document.addEventListener("keydown", (e) => {
     if (e.code === "Space") {
-        
-        if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+
+        const active = document.activeElement;
+
+        if (
+            active.tagName === "INPUT" ||
+            active.tagName === "TEXTAREA" ||
+            active.isContentEditable
+        ) {
             return;
         }
 
