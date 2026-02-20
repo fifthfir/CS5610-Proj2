@@ -4,6 +4,7 @@ import express from "express";
 import sessionRoutes from "../server/routes/session.routes.js";
 import notesRoutes from "../server/routes/notes.routes.js";
 import inventoryRoutes from "../server/routes/inventory.routes.js";
+import craftRoutes from "../server/routes/craft.routes.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,6 +17,7 @@ app.use(express.static("public"));
 app.use("/api/session", sessionRoutes);
 app.use("/api/notes", notesRoutes);
 app.use("/api/inventory", inventoryRoutes);
+app.use("/api/crafts", craftRoutes);
 
 app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`);
