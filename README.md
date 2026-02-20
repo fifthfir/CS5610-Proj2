@@ -6,6 +6,9 @@ Ruotian Zhang, Alptug Guven
 ### Class Link
 https://johnguerra.co/classes/webDevelopment_online_spring_2026/
 
+### Project Name
+Scavenge What remains
+
 ### Project Objective
 This project is a full-stack web application that combines interactive storytelling with a persistent data management system. It allows users to engage in a narrative experience where game progress, player notes, and inventory items are stored and retrieved from a cloud database.
 
