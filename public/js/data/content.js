@@ -3,9 +3,9 @@
 export const STORY_DATA = {
     "cell_1": [
         "[System Log: Neural Override Count - Updated]{note}",
-        "Wake up in a violent [shiver]{note}.",
+        "Wake up in a violent shiver.",
         "You awaken to see yourself in your Cryochamber.",
-        "The status lights flicker. The computerized voice echoes: The journey was a [success]{note}.",
+        "The status lights flicker. The computerized voice echoes: [The journey was a success]{note}.",
         "Why aren't the doors opening?",
         {
             type: "choices",
@@ -17,7 +17,7 @@ export const STORY_DATA = {
     ],
 
     "cell_trust_ai": [
-        "The state-of-the-art [AI systems]{note} will surely unlock me in due time.",
+        "The [state-of-the-art AI systems]{note} will surely unlock me in due time.",
         "You wait. And wait.",
         "Still waiting!",
         {
@@ -43,7 +43,7 @@ export const STORY_DATA = {
     ],
 
     "cell_call_crew": [
-        "Voice hovered around the ship. You hear there are some [voices]{note} like small scratches, but no human response.",
+        "Voice hovered around the ship. You hear there are some [voices like small scratches]{note}, but no human response.",
         "Your heart sinks. Something is wrong with the [Crew Manifest]{note}.",
         {
             type: "choices",
@@ -55,7 +55,7 @@ export const STORY_DATA = {
 
     "cell_call_ai": [
         "The AI explains that all remaining power has been redirected to [life support systems]{note}, which is why the ship is dark.",
-        "It repeats the statement once more, almost identically, as if [buffering]{note} or recalibrating.",
+        "It repeats the statement once more, almost identically, as if buffering or recalibrating.",
         "You notice a [Data Pad]{item} flashing near the terminal.",
         {
             type: "choices",
@@ -66,7 +66,7 @@ export const STORY_DATA = {
     ],
 
     "cell_dark_hallway": [
-        "Why is the ship so dark? Did the [landing]{note} go wrong?",
+        "Why is the ship so dark? Did the landing go wrong?",
         "The emergency floor lights are out. You might need a Flashlight.",
         {
             type: "choices",
@@ -91,7 +91,7 @@ export const STORY_DATA = {
     ],
 
     "cell_feel_presence": [
-        "You reach out into the darkness. Your hand brushes against something [wet and squishy]{note}.",
+        "You reach out into the darkness. Your hand brushes against [something wet and squishy]{note}.",
         "As your fingers trace the shape, a cold realization hits you: It's [Another crewmember]{note}!",
         "They are cold. Unmoving. It appears they died from injuries during the flight, not because they were trapped.",
         {
@@ -117,7 +117,7 @@ export const STORY_DATA = {
     ],
 
     "cell_survival_kit": [
-        "You remember the emergency protocols. The [Survival Kit]{note} should be bolted to the bulkhead in this sector.",
+        "You remember the emergency protocols. The Survival Kit should be bolted to the bulkhead in this sector.",
         "You fumble in the dark until your hands click the latch open.",
         {
             type: "choices",
@@ -128,7 +128,7 @@ export const STORY_DATA = {
                 { text: "> Take BROKEN Flashlight", target: "cell_take_flashlight" },
                 { text: "> Take EXOGRADEX", target: "cell_take_exogradex" },
                 { text: "> Take Climbing Gear", target: "cell_take_climbing" },
-                { text: "> I don't need them", target: "cell_cautious_exit" }
+                { text: "> Let's go", target: "cell_cautious_exit" }
             ]
         }
     ],
@@ -138,34 +138,34 @@ export const STORY_DATA = {
         {
             type: "choices",
             list: [
-                { text: "> Continue toward the boarding dock", target: "cell_survival_kit" }
+                { text: "> Take other items in the kit", target: "cell_survival_kit" }
             ]
         }
     ],
 
     "cell_take_firstaid": [
         "You secure the [First-aid Kit]{item}. It might be useful if that 'Trip' wasn't your last accident.",
-        { type: "choices", list: [{ text: "> Move toward the dock", target: "cell_survival_kit" }] }
+        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit" }] }
     ],
 
     "cell_take_food": [
         "A pack of [Food Ration]{item}. Tastes like chalk, but calories are calories.",
-        { type: "choices", list: [{ text: "> Move toward the dock", target: "cell_survival_kit" }] }
+        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit" }] }
     ],
 
     "cell_take_knapsack": [
         "You shoulder the [Knapsack]{item}. More space to carry the weight of this mission.",
-        { type: "choices", list: [{ text: "> Move toward the dock", target: "cell_survival_kit" }] }
+        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit" }] }
     ],
 
     "cell_take_exogradex": [
         "You find a canister of [EXOGRADEX]{item}. A specialized chemical compound.",
-        { type: "choices", list: [{ text: "> Move toward the dock", target: "cell_survival_kit" }] }
+        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit" }] }
     ],
 
     "cell_take_climbing": [
         "The [Climbing Gear]{item} is heavy, but the ship's vertical shafts might require it.",
-        { type: "choices", list: [{ text: "> Move toward the dock", target: "cell_survival_kit" }] }
+        { type: "choices", list: [{ text: "> Take other items in the kit", target: "cell_survival_kit" }] }
     ],
 
     "cell_cautious_exit": [
