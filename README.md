@@ -82,7 +82,7 @@ We utilized Generative AI tools to assist in the development of this project:
 This project is licensed under the MIT License.
 
 ##  Video Demonstration
-[video](https://youtu.be/c3TqooaOx7g)
+[A short introduction video with no spoilers](https://youtu.be/c3TqooaOx7g)
 
 ##  Reference
 
