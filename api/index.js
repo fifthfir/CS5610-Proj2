@@ -17,7 +17,7 @@ app.use(express.static("public"));
 app.use("/api/session", sessionRoutes);
 app.use("/api/notes", notesRoutes);
 app.use("/api/inventory", inventoryRoutes);
-app.use("/api/craft", craftRoutes);
+app.use("/api/crafts", craftRoutes);
 
 app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`);
