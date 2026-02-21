@@ -13,7 +13,7 @@ Scavenge What remains
 This project is a full-stack web application that combines interactive storytelling with a persistent data management system. It allows users to engage in a narrative experience where game progress, player notes, and inventory items are stored and retrieved from a cloud database.
 
 ### Design Document
-Please refer to: [Design Document.pdf](./public/assets/Design_Doc_Proj2.pdf)
+Please refer to: [Design Document on Google Drive](https://docs.google.com/document/d/1D7cLufDrv4BH8oQE7q2sbj01KjROumqtWB-2swFQQeM/edit?tab=t.0)
 
 ## Project Link
 GitHub repository link: https://github.com/fifthfir/CS5610-Proj2
@@ -68,9 +68,9 @@ Since this project uses ES6 Modules, it must be run via a local server:
 
 ## Team Contributions - CRUD Responsibilities
 
-- **Ruotian Zhang**: Implemented the CRUD systems for **Notes** and **Progress System** (create/edit/delete notes; save/load game progress per owner session).
+- **Ruotian Zhang**: 2 MongoDB collections: Implemented the CRUD systems for **Notes** and **Progress System** (create/edit/delete notes; save/load game progress per owner session). 'Ship' part of the game plots.
 
-- **Alptug Guven**: Implemented the CRUD systems for **Inventory** and **Craft System** (collect/update/remove items; craft multiple items accroding to recipes).
+- **Alptug Guven**: 2 MongoDB collections: Implemented the CRUD systems for **Inventory** and **Craft System** (collect/update/remove items; craft multiple items accroding to recipes). 'Nature' part of the game plots.
 
 ## GenAI Tool Usage
 We utilized Generative AI tools to assist in the development of this project:

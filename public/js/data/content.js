@@ -142,8 +142,8 @@ export const STORY_DATA = {
         {
             type: "choices",
             list: [
-                { text: "> Head toward the lights towards the left", target: "cell_airlock_exit" },
-                { text: "> Follow the lights on the right", target: "cell_survival_kit" }
+                { text: "> Follow the lights on the right", target: "cell_survival_kit" },
+                { text: "> Head toward the lights towards the left.", target: "cell_airlock_exit" }
             ]
         }
     ],
