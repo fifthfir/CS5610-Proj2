@@ -91,7 +91,7 @@ async function refreshUI() {
     const combineBtn = document.getElementById("btn-combine");
     if (combineBtn && !combineBtn.disabled) {
       combineBtn.onclick = async () => {
-        const success = await attemptCraft(ownerId, async (id1, id2, resultName, message) => {
+        await attemptCraft(ownerId, async (id1, id2, resultName, message) => {
           await deleteInventoryItem(ownerId, id1);
           await deleteInventoryItem(ownerId, id2);
           await addInventoryItem(ownerId, resultName, "crafted");
