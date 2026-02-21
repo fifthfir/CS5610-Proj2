@@ -53,9 +53,9 @@ Since this project uses ES6 Modules, it must be run via a local server:
 
 ## Team Contributions - CRUD Responsibilities
 
-- **Ruotian Zhang**: Implemented the CRUD systems for **Notes** and **Progress System** (create/edit/delete notes; save/load game progress per owner session). 'Ship' part of the game plots.
+- **Ruotian Zhang**: 2 MongoDB collections: Implemented the CRUD systems for **Notes** and **Progress System** (create/edit/delete notes; save/load game progress per owner session). 'Ship' part of the game plots.
 
-- **Alptug Guven**: Implemented the CRUD systems for **Inventory** and **Craft System** (collect/update/remove items; craft multiple items accroding to recipes). 'Nature' part of the game plots.
+- **Alptug Guven**: 2 MongoDB collections: Implemented the CRUD systems for **Inventory** and **Craft System** (collect/update/remove items; craft multiple items accroding to recipes). 'Nature' part of the game plots.
 
 ##  GenAI Tool Usage
 We utilized Generative AI tools to assist in the development of this project:
