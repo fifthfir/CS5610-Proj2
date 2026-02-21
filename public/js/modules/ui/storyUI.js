@@ -1,6 +1,5 @@
 // storyUI.js
 import { STORY_DATA } from "../../data/content.js";
-import { loadInventory } from "./inventoryUI.js"; // <--- IMPORT ADDED HERE
 
 let currentSection = "cell_1";
 let currentLineIndex = 0;
